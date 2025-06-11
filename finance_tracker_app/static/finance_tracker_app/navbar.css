@@ -1,0 +1,45 @@
+.logo{
+color: #0F1417;
+ font-size: 18px;
+ font-family: Public Sans;
+ font-weight: 700;
+ line-height: 23px;
+ word-wrap: break-word
+}
+---
+.navbar_items,
+.navbar_items_active {
+    color: #0F1417;
+    font-size: 14px;
+    font-family: 'Public Sans', sans-serif;
+    font-weight: 500;
+    line-height: 21px;
+    word-wrap: break-word;
+    transition: color 0.2s, border-bottom 0.2s;
+    border-bottom: 2px solid transparent;
+    background: none;
+    outline: none;
+    text-decoration: none;
+}
+
+.navbar_items:hover,
+.navbar_items:focus {
+    color: #007bff; /* Blue on hover/focus */
+    border-bottom: 2px solid #007bff;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.navbar_items_active {
+    color: #0F1417;
+    border-bottom: 2px solid #28a745; /* Green underline for active */
+    background: none;
+}
+
+.navbar_items_active:hover,
+.navbar_items_active:focus {
+    color: #28a745; /* Green text on hover/focus when active */
+    border-bottom: 2px solid #28a745;
+    cursor: pointer;
+    text-decoration: none;
+}

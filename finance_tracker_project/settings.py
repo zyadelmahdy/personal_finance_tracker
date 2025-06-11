@@ -11,10 +11,13 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
+import os
+import dj_database_url
+import sys
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
+DEBUG = True
 BASE_DIR = Path(__file__).resolve().parent.parent
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
@@ -25,8 +28,9 @@ SECRET_KEY = 'django-insecure-l05fd4$xac82-#napht%7efnrj$9q+125f255(de38-8cpi5b%
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['.onrender.com', 'localhost', '0.0.0.0', '127.0.0.1', '127.0.0.1:8000']
 
+LOGIN_URL = 'login'
 
 # Application definition
 
@@ -37,10 +41,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'finance_tracker_app',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -50,6 +56,12 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'finance_tracker_project.urls'
+
+# Static files settings for Render
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
 
 TEMPLATES = [
     {
@@ -66,6 +78,9 @@ TEMPLATES = [
     },
 ]
 
+# CSRF_TRUSTED_ORIGINS = [
+#     '',
+# ]
 WSGI_APPLICATION = 'finance_tracker_project.wsgi.application'
 
 
@@ -74,8 +89,12 @@ WSGI_APPLICATION = 'finance_tracker_project.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'finance_tracker_db',
+        'USER': 'finance_user',
+        'PASSWORD': 'yourpassword',
+        'HOST': 'localhost',
+        'PORT': '5432',
     }
 }
 
