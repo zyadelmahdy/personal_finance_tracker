@@ -39,7 +39,7 @@ urlpatterns = [
     path('add_entry/', views.add_entry_view, name='add_entry'),
     path('entry/<int:entry_id>/edit/', views.entry_edit_view, name='entry_edit'),
     path('entry/<int:entry_id>/delete/', views.entry_delete_view, name='entry_delete'),
-    path('entry/<int:entry_id>/details/', views.entry_detail_view, name='entry_details'),
+    path('entry/<int:entry_id>/details/', views.entry_details_view, name='entry_details'),
     
     
     #transaction management
@@ -47,7 +47,7 @@ urlpatterns = [
     path('transactions/add/', views.add_transaction_view, name='add_transaction'),
     path('transactions/<int:transaction_id>/edit/', views.edit_transaction_view, name='edit_transaction'),
     path('transactions/<int:transaction_id>/delete/', views.delete_transaction_view, name='delete_transaction'),
-    path('transactions/<int:transaction_id>/details/', views.transaction_detail_view, name='transaction_details'),
+    path('transactions/<int:transaction_id>/details/', views.transaction_details_view, name='transaction_details'),
     
     
     #budget management
@@ -55,7 +55,7 @@ urlpatterns = [
     path('budgets/add/', views.add_budget_view, name='add_budget'),
     path('budgets/<int:budget_id>/edit/', views.edit_budget_view, name='edit_budget'),
     path('budgets/<int:budget_id>/delete/', views.delete_budget_view, name='delete_budget'),
-    path('budgets/<int:budget_id>/details/', views.budget_detail_view, name='budget_details'),
+    path('budgets/<int:budget_id>/details/', views.budget_details_view, name='budget_details'),
     
     
     #reporting management
@@ -64,11 +64,11 @@ urlpatterns = [
     
     
     #card and account management
-    path('cards_accounts/', views.cards_view, name='cards_accounts'),
-    path('cards_accounts/add/', views.add_card_view, name='add_card_account'),
-    path('cards_accounts/<int:card_account_id>/edit/', views.edit_card_view, name='edit_card_account'),
-    path('cards_accounts/<int:card_account_id>/delete/', views.delete_card_view, name='delete_card_account'),
-    path('cards_accounts/<int:card_account_id>/details/', views.card_detail_view, name='card_account_details'),
+    path('cards_accounts/', views.cards_accounts_view, name='cards_accounts'),
+    path('cards_accounts/add/', views.add_card_account_view, name='add_card_account'),
+    path('cards_accounts/<int:card_account_id>/edit/', views.edit_card_account_view, name='edit_card_account'),
+    path('cards_accounts/<int:card_account_id>/delete/', views.delete_card_account_view, name='delete_card_account'),
+    path('cards_accounts/<int:card_account_id>/details/', views.card_account_details_view, name='card_account_details'),
     
     
     #income management
@@ -76,7 +76,7 @@ urlpatterns = [
     path('income/add/', views.add_income_view, name='add_income'),
     path('income/<int:income_id>/edit/', views.edit_income_view, name='edit_income'),
     path('income/<int:income_id>/delete/', views.delete_income_view, name='delete_income'),
-    path('income/<int:income_id>/details/', views.income_detail_view, name='income_details'),
+    path('income/<int:income_id>/details/', views.income_details_view, name='income_details'),
     
     
     #expense management

@@ -4,38 +4,46 @@
 {% block title %}Login{% endblock %}
 
 {% block content %}
-
-
-<div data-layer="Depth 3, Frame 0" class="Depth3Frame0 w-[960px] h-[695px] max-w-[960px] py-5 inline-flex flex-col justify-start items-start overflow-hidden">
-  <div data-layer="Depth 4, Frame 0" class="Depth4Frame0 self-stretch px-4 pt-5 pb-3 flex flex-col justify-start items-center">
-    <div data-layer="Welcome back" class="WelcomeBack self-stretch text-center justify-start text-[#0f1416] text-3xl font-bold font-['Public_Sans'] leading-9">Welcome back</div>
-  </div>
-  <div data-layer="Depth 4, Frame 1" class="Depth4Frame1 size- max-w-[480px] px-4 py-3 inline-flex justify-start items-end gap-4 flex-wrap content-end">
-    <div data-layer="Depth 5, Frame 0" class="Depth5Frame0 flex-1 min-w-40 inline-flex flex-col justify-start items-start">
-      <div data-layer="Depth 6, Frame 0" class="Depth6Frame0 self-stretch h-14 p-4 bg-[#eaedf2] rounded-xl inline-flex justify-start items-center overflow-hidden">
-        <div data-layer="Email" class="Email justify-start text-[#5b7289] text-base font-normal font-['Public_Sans'] leading-normal">Email</div>
+<div class="min-h-screen flex items-center justify-center bg-gray-50">
+  <div class="w-full max-w-md bg-white rounded-xl shadow p-8 flex flex-col gap-6">
+    <h2 class="text-center text-3xl font-bold text-[#0f1416] font-['Public_Sans']">Welcome back</h2>
+    <form method="post" class="flex flex-col gap-4">
+      {% csrf_token %}
+      {{ form.non_field_errors }}
+      <div>
+        {{ form.username.label_tag }}
+        <input
+          type="text"
+          name="username"
+          class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+          placeholder="Username"
+          required
+          id="id_username"
+          value="{{ form.username.value|default_if_none:'' }}"
+        >
+        {{ form.username.errors }}
       </div>
-    </div>
-  </div>
-  <div data-layer="Depth 4, Frame 2" class="Depth4Frame2 size- max-w-[480px] px-4 py-3 inline-flex justify-start items-end gap-4 flex-wrap content-end">
-    <div data-layer="Depth 5, Frame 0" class="Depth5Frame0 flex-1 min-w-40 inline-flex flex-col justify-start items-start">
-      <div data-layer="Depth 6, Frame 0" class="Depth6Frame0 self-stretch h-14 p-4 bg-[#eaedf2] rounded-xl inline-flex justify-start items-center overflow-hidden">
-        <div data-layer="Password" class="Password justify-start text-[#5b7289] text-base font-normal font-['Public_Sans'] leading-normal">Password</div>
+      <div>
+        {{ form.password.label_tag }}
+        <input
+          type="password"
+          name="password"
+          class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+          placeholder="Password"
+          required
+          id="id_password"
+        >
+        {{ form.password.errors }}
       </div>
+      <button type="submit" class="w-full bg-[#3f7fbf] text-white font-bold py-2 rounded-xl hover:bg-blue-700 transition">Log in</button>
+    </form>
+    <div class="text-center text-sm text-[#5b7289]">
+      <a href="#">Forgot password?</a>
     </div>
-  </div>
-  <div data-layer="Depth 4, Frame 3" class="Depth4Frame3 self-stretch px-4 pt-1 pb-3 flex flex-col justify-start items-start">
-    <div data-layer="Forgot password?" class="ForgotPassword self-stretch justify-start text-[#5b7289] text-sm font-normal font-['Public_Sans'] leading-tight">Forgot password?</div>
-  </div>
-  <div data-layer="Depth 4, Frame 4" class="Depth4Frame4 self-stretch px-4 py-3 inline-flex justify-start items-start">
-    <div data-layer="Depth 5, Frame 0" class="Depth5Frame0 flex-1 h-10 max-w-[480px] min-w-20 px-4 bg-[#3f7fbf] rounded-[20px] flex justify-center items-center overflow-hidden">
-      <div data-layer="Depth 6, Frame 0" class="Depth6Frame0 size- inline-flex flex-col justify-start items-center overflow-hidden">
-        <div data-layer="Log in" class="LogIn text-center justify-start text-[#f9f9f9] text-sm font-bold font-['Public_Sans'] leading-tight">Log in</div>
-      </div>
+    <div class="text-center text-sm text-[#5b7289]">
+      Don't have an account?
+      <a class="hover:text-gray-700" href="{% url 'register' %}">Sign up</a>
     </div>
-  </div>
-  <div data-layer="Depth 4, Frame 5" class="Depth4Frame5 self-stretch px-4 pt-1 pb-3 flex flex-col justify-start items-center">
-    <div data-layer="Don't have an account? Sign up" class="DonTHaveAnAccountSignUp self-stretch text-center justify-start text-[#5b7289] text-sm font-normal font-['Public_Sans'] leading-tight">Don't have an account? Sign up</div>
   </div>
 </div>
 {% endblock %}

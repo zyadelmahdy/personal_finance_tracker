@@ -20,7 +20,7 @@ def register_view(request):
             messages.error(request, "Registration failed. Please correct the errors below.")
     else:
         form = UserCreationForm()
-    return render(request, 'register.html', {'form': form})
+    return render(request, 'finance_tracker_app/register.html', {'form': form})
 
 def login_view(request):
     if request.method == 'POST':
@@ -48,7 +48,8 @@ def profile_view(request):
 
 @login_required
 def settings_view(request):
-    return render(request, 'settings.html')
+    context = {'active_page': 'settings'}
+    return render(request, 'finance_tracker_app/settings.html', context)
 
 @login_required
 def change_password_view(request):
@@ -75,12 +76,15 @@ def entry_delete_view(request, entry_id):
     return render(request, 'entry_delete.html', {'entry_id': entry_id})
 
 @login_required
-def entry_detail_view(request, entry_id):
-    return render(request, 'entry_detail.html', {'entry_id': entry_id})
+def entry_details_view(request, entry_id):
+    return render(request, 'entry_details.html', {'entry_id': entry_id})
 
 @login_required
 def transactions_view(request):
-    return render(request, 'transactions.html')
+    context = {
+        'active_page': 'transactions',
+    }
+    return render(request, 'transactions.html', context)
 
 @login_required
 def add_transaction_view(request):
@@ -95,12 +99,15 @@ def delete_transaction_view(request, transaction_id):
     return render(request, 'delete_transaction.html', {'transaction_id': transaction_id})
 
 @login_required
-def transaction_detail_view(request, transaction_id):
-    return render(request, 'transaction_detail.html', {'transaction_id': transaction_id})
+def transaction_details_view(request, transaction_id):
+    return render(request, 'transaction_details.html', {'transaction_id': transaction_id})
 
 @login_required
 def budgets_view(request):
-    return render(request, 'budgets.html')
+    context = {
+        'active_page': 'budgets',
+    }
+    return render(request, 'budgets.html', context)
 
 @login_required
 def add_budget_view(request):
@@ -115,35 +122,38 @@ def delete_budget_view(request, budget_id):
     return render(request, 'delete_budget.html', {'budget_id': budget_id})
 
 @login_required
-def budget_detail_view(request, budget_id):
-    return render(request, 'budget_detail.html', {'budget_id': budget_id})
+def budget_details_view(request, budget_id):
+    return render(request, 'budget_details.html', {'budget_id': budget_id})
 
 @login_required
 def reports_view(request):
-    return render(request, 'reports.html')
+    context = {
+        'active_page': 'reports',
+    }
+    return render(request, 'reports.html', context)
 
 @login_required
 def export_report_view(request):
     return render(request, 'export_report.html')
 
 @login_required
-def cards_view(request):
+def cards_accounts_view(request):
     return render(request, 'cards_accounts.html')
 
 @login_required
-def add_card_view(request):
+def add_card_account_view(request):
     return render(request, 'add_card_account.html')
 
 @login_required
-def edit_card_view(request, card_account_id):
+def edit_card_account_view(request, card_account_id):
     return render(request, 'edit_card_account.html', {'card_account_id': card_account_id})
 
 @login_required
-def delete_card_view(request, card_account_id):
+def delete_card_account_view(request, card_account_id):
     return render(request, 'delete_card_account.html', {'card_account_id': card_account_id})
 
 @login_required
-def card_detail_view(request, card_account_id):
+def card_account_details_view(request, card_account_id):
     return render(request, 'card_account_details.html', {'card_account_id': card_account_id})
 
 @login_required
@@ -163,7 +173,7 @@ def delete_income_view(request, income_id):
     return render(request, 'delete_income.html', {'income_id': income_id})
 
 @login_required
-def income_detail_view(request, income_id):
+def income_details_view(request, income_id):
     return render(request, 'income_details.html', {'income_id': income_id})
 
 @login_required
@@ -205,8 +215,3 @@ def delete_saving_view(request, saving_id):
 @login_required
 def saving_detail_view(request, saving_id):
     return render(request, 'saving_details.html', {'saving_id': saving_id})
-
-
-
-
-
