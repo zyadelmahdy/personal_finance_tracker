@@ -1,7 +1,106 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Dashboard{% endblock %}
 
 {% block content %}
+<div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8 flex flex-col gap-8">
 
+  <!-- Financial Overview -->
+  <div class="flex flex-col gap-2">
+    <div class="text-[#0f1416] text-3xl font-bold font-['Public_Sans'] leading-10">Financial Overview</div>
+  </div>
 
+  <!-- Income, Expenses, Savings Cards -->
+  <div class="flex flex-wrap gap-4">
+    <div class="flex-1 min-w-40 p-6 bg-[#eaedf2] rounded-xl flex flex-col gap-2">
+      <div class="text-[#0f1416] text-base font-medium font-['Public_Sans']">Total Income</div>
+      <div class="text-[#0f1416] text-2xl font-bold font-['Public_Sans']">$12,500</div>
+    </div>
+    <div class="flex-1 min-w-40 p-6 bg-[#eaedf2] rounded-xl flex flex-col gap-2">
+      <div class="text-[#0f1416] text-base font-medium font-['Public_Sans']">Total Expenses</div>
+      <div class="text-[#0f1416] text-2xl font-bold font-['Public_Sans']">$8,200</div>
+    </div>
+    <div class="flex-1 min-w-40 p-6 bg-[#eaedf2] rounded-xl flex flex-col gap-2">
+      <div class="text-[#0f1416] text-base font-medium font-['Public_Sans']">Net Savings</div>
+      <div class="text-[#0f1416] text-2xl font-bold font-['Public_Sans']">$4,300</div>
+    </div>
+  </div>
+
+  <!-- Cards Row: Expenses by Category & Monthly Savings Trend -->
+  <div class="flex flex-row gap-4">
+    <!-- Expenses by Category Card -->
+    <div class="w-1/2 h-96 min-w-72 p-6 rounded-xl border border-[#d3dbe2] flex flex-col gap-4 bg-white">
+      <div class="text-[#0f1416] text-base font-medium font-['Public_Sans']">Expenses by Category</div>
+      <div class="text-[#0f1416] text-3xl font-bold font-['Public_Sans']">$8,200</div>
+      <div class="flex gap-2 items-center">
+        <div class="text-[#5b7289] text-base font-normal font-['Public_Sans']">Current Month</div>
+        <div class="text-[#e83807] text-base font-medium font-['Public_Sans']">-5%</div>
+      </div>
+      <div class="flex gap-6 min-h-44 px-3">
+        <div class="flex flex-col items-end gap-6 w-8">
+          <div class="h-36 bg-[#eaedf2] border-t-2 border-[#757575] w-full"></div>
+          <div class="h-5 flex items-start">
+            <div class="text-[#5b7289] text-xs font-bold font-['Public_Sans']">Food</div>
+          </div>
+        </div>
+        <div class="flex flex-col items-end gap-6 w-7">
+          <div class="h-36 bg-[#eaedf2] border-t-2 border-[#757575] w-full"></div>
+          <div class="h-5 flex items-start">
+            <div class="text-[#5b7289] text-xs font-bold font-['Public_Sans']">Rent</div>
+          </div>
+        </div>
+        <div class="flex flex-col items-end gap-6 w-12">
+          <div class="h-36 bg-[#eaedf2] border-t-2 border-[#757575] w-full"></div>
+          <div class="h-5 flex items-start">
+            <div class="text-[#5b7289] text-xs font-bold font-['Public_Sans']">Utilities</div>
+          </div>
+        </div>
+        <div class="flex flex-col items-end gap-6 w-24">
+          <div class="h-36 bg-[#eaedf2] border-t-2 border-[#757575] w-full"></div>
+          <div class="h-5 flex items-start">
+            <div class="text-[#5b7289] text-xs font-bold font-['Public_Sans']">Transportation</div>
+          </div>
+        </div>
+        <div class="flex flex-col items-end gap-6 w-24">
+          <div class="h-36 bg-[#eaedf2] border-t-2 border-[#757575] w-full"></div>
+          <div class="h-5 flex items-start">
+            <div class="text-[#5b7289] text-xs font-bold font-['Public_Sans']">Entertainment</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Monthly Savings Trend Card -->
+    <div class="w-1/2 h-96 min-w-72 p-6 rounded-xl border border-[#d3dbe2] flex flex-col gap-4 bg-white">
+      <div class="text-[#0f1416] text-base font-medium font-['Public_Sans']">Monthly Savings Trend</div>
+      <div class="text-[#0f1416] text-3xl font-bold font-['Public_Sans']">$4,300</div>
+      <div class="flex gap-2 items-center">
+        <div class="text-[#5b7289] text-base font-normal font-['Public_Sans']">Last 6 Months</div>
+        <div class="text-[#078738] text-base font-medium font-['Public_Sans']">+12%</div>
+      </div>
+      <div class="w-full h-36 bg-gradient-to-b from-[#eaedf2] to-[#eaedf2]/0"></div>
+      <div class="flex justify-between">
+        <div class="flex flex-col items-start">
+          <div class="text-[#5b7289] text-xs font-bold font-['Public_Sans']">Jan</div>
+        </div>
+        <div class="flex flex-col items-start">
+          <div class="text-[#5b7289] text-xs font-bold font-['Public_Sans']">Feb</div>
+        </div>
+        <div class="flex flex-col items-start">
+          <div class="text-[#5b7289] text-xs font-bold font-['Public_Sans']">Mar</div>
+        </div>
+        <div class="flex flex-col items-start">
+          <div class="text-[#5b7289] text-xs font-bold font-['Public_Sans']">Apr</div>
+        </div>
+        <div class="flex flex-col items-start">
+          <div class="text-[#5b7289] text-xs font-bold font-['Public_Sans']">May</div>
+        </div>
+        <div class="flex flex-col items-start">
+          <div class="text-[#5b7289] text-xs font-bold font-['Public_Sans']">Jun</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
 {% endblock %}
-

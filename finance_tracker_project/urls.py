@@ -35,11 +35,12 @@ urlpatterns = [
     path('update_profile/', views.update_profile_view, name='update_profile'),
     
     
-    #entry management
-    path('add_entry/', views.add_entry_view, name='add_entry'),
-    path('entry/<int:entry_id>/edit/', views.entry_edit_view, name='entry_edit'),
-    path('entry/<int:entry_id>/delete/', views.entry_delete_view, name='entry_delete'),
-    path('entry/<int:entry_id>/details/', views.entry_details_view, name='entry_details'),
+    #payment method management
+    path('methods/', views.method_view, name='methods'),
+    path('add_method/', views.add_method_view, name='add_entry'),
+    path('entry/<int:method_id>/edit/', views.edit_method_view, name='add_method'),
+    path('entry/<int:method_id>/delete/', views.delete_method_view, name='delete_method'),
+    path('entry/<int:method_id>/details/', views.method_details_view, name='method_details'),
     
     
     #transaction management
@@ -48,6 +49,11 @@ urlpatterns = [
     path('transactions/<int:transaction_id>/edit/', views.edit_transaction_view, name='edit_transaction'),
     path('transactions/<int:transaction_id>/delete/', views.delete_transaction_view, name='delete_transaction'),
     path('transactions/<int:transaction_id>/details/', views.transaction_details_view, name='transaction_details'),
+    path('add_category/', views.add_category_view, name='add_category'),
+    path('categories/', views.categories_view, name='categories'),
+    path('categories/<int:category_id>/edit/', views.edit_category_view, name='edit_category'),
+    path('categories/<int:category_id>/delete/', views.delete_category_view, name='delete_category'),
+    
     
     
     #budget management
@@ -69,22 +75,6 @@ urlpatterns = [
     path('cards_accounts/<int:card_account_id>/edit/', views.edit_card_account_view, name='edit_card_account'),
     path('cards_accounts/<int:card_account_id>/delete/', views.delete_card_account_view, name='delete_card_account'),
     path('cards_accounts/<int:card_account_id>/details/', views.card_account_details_view, name='card_account_details'),
-    
-    
-    #income management
-    path('income/', views.income_view, name='income'),
-    path('income/add/', views.add_income_view, name='add_income'),
-    path('income/<int:income_id>/edit/', views.edit_income_view, name='edit_income'),
-    path('income/<int:income_id>/delete/', views.delete_income_view, name='delete_income'),
-    path('income/<int:income_id>/details/', views.income_details_view, name='income_details'),
-    
-    
-    #expense management
-    path('expenses/', views.expenses_view, name='expenses'),
-    path('expenses/add/', views.add_expense_view, name='add_expense'),
-    path('expenses/<int:expense_id>/edit/', views.edit_expense_view, name='edit_expense'),
-    path('expenses/<int:expense_id>/delete/', views.delete_expense_view, name='delete_expense'),
-    path('expenses/<int:expense_id>/details/', views.expense_detail_view, name='expense_details'),
     
     
     #savings management

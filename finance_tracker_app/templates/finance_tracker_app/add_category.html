@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Add category{% endblock %}
+
+{% block content %}
+<div class="mx-auto max-w-2xl px-4 sm:px-6 lg:px-8 py-8">
+  <div class="bg-white rounded-xl shadow p-8 flex flex-col gap-6">
+    <h2 class="text-center text-2xl font-bold text-[#0f1416] font-['Public_Sans'] mb-2">Add Category</h2>
+    <form method="post" class="flex flex-col gap-4">
+      {% csrf_token %}
+      {{ form.non_field_errors }}
+      <div>
+        {{ form.name.label_tag }}
+        <input
+          type="text"
+          name="name"
+          class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+          placeholder="Category Name"
+          required
+          id="id_name"
+          value="{{ form.name.value|default_if_none:'' }}"
+        >
+        {{ form.name.errors }}
+      </div>
+      <button type="submit" class="w-full bg-[#3f7fbf] text-white font-bold py-2 rounded-xl hover:bg-blue-700 transition">Add Category</button>
+    </form>
+    <div class="text-center text-sm text-[#5b7289]">
+      <a href="{% url 'add_transaction' %}" class="hover:text-[#3f7fbf]">Back to Add Transaction</a>
+    </div>
+  </div>
+</div>
+{% endblock %}
