@@ -21,7 +21,7 @@ class MethodForm(forms.ModelForm):
 class ProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
-        fields = ['image', 'user']  # Add 'image' field
+        fields = ['image', 'user'] 
 
     # Optionally, expose username and email via the user relation
     username = forms.CharField(max_length=150)
@@ -47,7 +47,7 @@ CURRENCY_CHOICES = [
     ('USD', 'US Dollar'),
     ('EUR', 'Euro'),
     ('EGP', 'Egyptian Pound'),
-    ('GBP', 'British Pound'),
+    ('TRY', 'Turkish Lira'),
 ]
 
 class PreferencesForm(forms.ModelForm):

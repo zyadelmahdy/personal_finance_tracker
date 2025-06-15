@@ -1,0 +1,47 @@
+{% load static %}
+
+<nav class="bg-white shadow">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div class="flex h-16 items-center justify-between">
+      <!-- Logo -->
+      <div class="flex-shrink-0">
+        <a
+          href="{% url 'index' %}"
+          class="text-xl font-bold text-[#0f1416] font-['Public_Sans'] hover:text-blue-600 transition"
+        >
+          FinTrack
+        </a>
+      </div>
+      <!-- Nav Items -->
+      <div class="flex items-center space-x-8">
+        <a
+          href="{% url 'register' %}"
+          class="text-sm font-medium text-[#0f1416] font-['Public_Sans'] hover:text-gray-700 transition 
+          {% if active_page == 'register' %} !text-gray-700 {% endif %}"
+        >
+          Register
+        </a>
+        <a
+          href="{% url 'login' %}"
+          class="text-sm font-medium text-[#0f1416] font-['Public_Sans'] hover:text-gray-700 transition 
+          {% if active_page == 'login' %} !text-gray-700 {% endif %}"
+        >
+          Login
+        </a>
+       
+        <!-- Profile Pic -->
+        <a
+          href="{% url 'settings' %}"
+          class="ml-4 {% if active_page == 'settings' %} !border-gray-500 {% endif %}"
+        >
+          <img
+            src="{% static 'finance_tracker_app/images/profile_pic.png' %}"
+            alt="Profile"
+            class="h-10 w-10 rounded-full object-cover border-2 border-gray-200 hover:border-gray-500 transition 
+            {% if active_page == 'settings' %} !border-gray-500 {% endif %}"
+          />
+        </a>
+      </div>
+    </div>
+  </div>
+</nav>

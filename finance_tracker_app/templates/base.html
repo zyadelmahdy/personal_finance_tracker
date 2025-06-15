@@ -11,8 +11,11 @@
     <link rel="stylesheet" href="{% static 'finance_tracker_app/main.css' %}" />
   </head>
   <body>
+    {% if user.is_authenticated %}
     {% include 'finance_tracker_app/partials/navbar.html' %} 
-
+    {% else %}
+    {% include 'finance_tracker_app/partials/guest_navbar.html' %}
+    {% endif %}
 
     {% block content %}
     {% endblock %}

@@ -22,7 +22,11 @@ def register_view(request):
             messages.error(request, "Registration failed. Please correct the errors below.")
     else:
         form = UserCreationForm()
-    return render(request, 'finance_tracker_app/register.html', {'form': form})
+    context = {
+        'form': form,
+        'active_page': 'register',
+    }
+    return render(request, 'finance_tracker_app/register.html', context)
 
 def login_view(request):
     if request.method == 'POST':
@@ -36,7 +40,11 @@ def login_view(request):
             messages.error(request, "Invalid username or password.")
     else:
         form = AuthenticationForm()
-    return render(request, 'finance_tracker_app/login.html', {'form': form})
+    context = {
+        'form': form,
+        'active_page': 'login',
+    }
+    return render(request, 'finance_tracker_app/login.html', context)
 
 @login_required
 def logout_view(request):

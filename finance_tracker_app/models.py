@@ -34,7 +34,7 @@ class Transaction(models.Model):
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
-    image = models.ImageField(upload_to='profile_pics/', default='finance_tracker_app/images/profile_pic.png')
+    image = models.ImageField(upload_to='profile_pics/', blank=True, null=True)
     currency = models.CharField(max_length=3, default='USD')  # For preferences
 
     def __str__(self):
