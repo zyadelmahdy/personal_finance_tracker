@@ -1,10 +1,10 @@
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, PasswordChangeForm
 from django.contrib.auth import login, authenticate, logout
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from .forms import TransactionForm, CategoryForm, MethodForm
-from .models import Transaction
+from .forms import TransactionForm, CategoryForm, MethodForm, ProfileForm, PreferencesForm
+from .models import Transaction, Profile
 
 @login_required
 def index_view(request):
@@ -50,7 +50,34 @@ def profile_view(request):
 
 @login_required
 def settings_view(request):
-    context = {'active_page': 'settings'}
+    user = request.user
+    profile = user.profile
+    profile_form = ProfileForm(instance=profile, prefix='profile')
+    preferences_form = PreferencesForm(instance=profile, prefix='preferences')
+    password_form = PasswordChangeForm(user, prefix='password')
+
+    if request.method == 'POST':
+        if 'profile_submit' in request.POST:
+            profile_form = ProfileForm(request.POST, request.FILES, instance=profile, prefix='profile')
+            if profile_form.is_valid():
+                profile_form.save()
+                messages.success(request, "Profile updated successfully.")
+        elif 'preferences_submit' in request.POST:
+            preferences_form = PreferencesForm(request.POST, instance=profile, prefix='preferences')
+            if preferences_form.is_valid():
+                preferences_form.save()
+                messages.success(request, "Preferences updated successfully.")
+        elif 'password_submit' in request.POST:
+            password_form = PasswordChangeForm(user, request.POST, prefix='password')
+            if password_form.is_valid():
+                password_form.save()
+                messages.success(request, "Password changed successfully.")
+
+    context = {
+        'profile_form': profile_form,
+        'preferences_form': preferences_form,
+        'password_form': password_form,
+    }
     return render(request, 'finance_tracker_app/settings.html', context)
 
 @login_required
