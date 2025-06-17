@@ -52,9 +52,9 @@ def logout_view(request):
     messages.info(request, "Logged out successfully.")
     return redirect('login')
 
-@login_required
-def profile_view(request):
-    return render(request, 'finance_tracker_app/profile.html')
+# @login_required
+# def profile_view(request):
+#     return render(request, 'finance_tracker_app/profile.html')
 
 @login_required
 def settings_view(request):
@@ -132,12 +132,13 @@ def transactions_view(request):
     else:
         ordering = sort if order == 'asc' else f'-{sort}'
 
+    # Filter transactions by the current user
     if tab == 'income':
-        transactions = Transaction.objects.filter(is_income=True).order_by(ordering)
+        transactions = Transaction.objects.filter(user=request.user, is_income=True).order_by(ordering)
     elif tab == 'expenses':
-        transactions = Transaction.objects.filter(is_expense=True).order_by(ordering)
+        transactions = Transaction.objects.filter(user=request.user, is_expense=True).order_by(ordering)
     else:
-        transactions = Transaction.objects.all().order_by(ordering)
+        transactions = Transaction.objects.filter(user=request.user).order_by(ordering)
 
     return render(request, 'finance_tracker_app/transactions.html', {
         'transactions': transactions,
@@ -153,6 +154,7 @@ def add_transaction_view(request):
         form = TransactionForm(request.POST)
         if form.is_valid():
             transaction = form.save(commit=False)
+            transaction.user = request.user  # Set the user
             t_type = request.POST.get('transaction_type')
             transaction.is_income = t_type == 'income'
             transaction.is_expense = t_type == 'expense'
@@ -164,7 +166,7 @@ def add_transaction_view(request):
 
 @login_required
 def edit_transaction_view(request, transaction_id):
-    transaction = get_object_or_404(Transaction, pk=transaction_id)
+    transaction = get_object_or_404(Transaction, pk=transaction_id, user=request.user)  # Filter by user
     if request.method == 'POST':
         form = TransactionForm(request.POST, instance=transaction)
         if form.is_valid():
@@ -180,10 +182,12 @@ def edit_transaction_view(request, transaction_id):
 
 @login_required
 def delete_transaction_view(request, transaction_id):
+    transaction = get_object_or_404(Transaction, pk=transaction_id, user=request.user)  # Filter by user
     return render(request, 'finance_tracker_app/delete_transaction.html', {'transaction_id': transaction_id})
 
 @login_required
 def transaction_details_view(request, transaction_id):
+    transaction = get_object_or_404(Transaction, pk=transaction_id, user=request.user)  # Filter by user
     return render(request, 'finance_tracker_app/transaction_details.html', {'transaction_id': transaction_id})
 
 @login_required

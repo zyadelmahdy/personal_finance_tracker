@@ -28,7 +28,7 @@ urlpatterns = [
     #dashboard and user management
     path('', views.index_view, name='index'),
     path('register/', views.register_view, name='register'),
-    path('profile/', views.profile_view, name='profile'),
+    # path('profile/', views.profile_view, name='profile'),
     path('login/', views.login_view, name='login'),
     path('logout/', views.logout_view, name='logout'),
     path('settings/', views.settings_view, name='settings'),
