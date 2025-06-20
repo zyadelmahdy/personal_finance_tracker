@@ -4,32 +4,33 @@
 {% block title %}Budgets{% endblock %}
 
 {% block content %}
-<div class="container mt-4">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2>Budgets</h2>
-        <a href="{% url 'add_budget' %}" class="btn btn-primary">Add Budget</a>
+<div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8">
+    <div class="flex justify-between items-center mb-6">
+        <h2 class="text-2xl font-bold">Budgets</h2>
+        <a href="{% url 'add_budget' %}" class="bg-[#3f7fbf] text-white px-4 py-2 rounded-lg font-semibold hover:bg-blue-700 transition">
+            + Add Budget
+        </a>
     </div>
 
     {% if budgets %}
-    <div class="table-responsive">
-        <table class="table table-striped table-hover">
-            <thead class="thead-dark">
+    <div class="rounded-xl shadow w-full">
+        <table class="w-full table-auto bg-white rounded-xl text-sm">
+            <thead class="bg-gray-50">
                 <tr>
-                    <th>Name</th>
-                    <th>Amount</th>
-                    <th>Category</th>
-                    <th>Actions</th>
+                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
+                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Amount</th>
+                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Category</th>
+                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
                 </tr>
             </thead>
             <tbody>
                 {% for budget in budgets %}
-                <tr>
-                    <td>{{ budget.name }}</td>
-                    <td>${{ budget.amount|floatformat:2 }}</td>
-                    <td>{{ budget.category.name }}</td>
-                    <td>
-                        <a href="{% url 'edit_budget' budget.id %}" class="btn btn-sm btn-info">Edit</a>
-                        <a href="{% url 'delete_budget' budget.id %}" class="btn btn-sm btn-danger">Delete</a>
+                <tr class="{% cycle 'bg-white' 'bg-gray-50' %} hover:bg-blue-50 transition">
+                    <td class="px-4 py-3 whitespace-nowrap">{{ budget.name }}</td>
+                    <td class="px-4 py-3 whitespace-nowrap">${{ budget.amount|floatformat:2 }}</td>
+                    <td class="px-4 py-3 whitespace-nowrap">{{ budget.category.name }}</td>
+                    <td class="px-4 py-3 whitespace-nowrap">
+                        <a href="{% url 'edit_budget' budget.id %}" class="inline-flex items-center bg-yellow-400 text-white px-2 py-1 rounded hover:bg-yellow-500 transition text-xs cursor-pointer">Edit</a>
                     </td>
                 </tr>
                 {% endfor %}
@@ -37,9 +38,7 @@
         </table>
     </div>
     {% else %}
-    <div class="alert alert-info" role="alert">
-        You have no budgets yet. <a href="{% url 'add_budget' %}">Add one now</a>.
-    </div>
+    <p class="text-gray-500">No budgets found.</p>
     {% endif %}
 </div>
 {% endblock %}

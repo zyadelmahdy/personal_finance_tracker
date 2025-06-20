@@ -1,6 +1,7 @@
 from django import forms
-from .models import Transaction, Category, Method, Profile
+from .models import Transaction, Category, Method, Profile, Budget
 from django.contrib.auth.models import User
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, PasswordChangeForm
 
 class TransactionForm(forms.ModelForm):
     class Meta:
@@ -55,3 +56,13 @@ class PreferencesForm(forms.ModelForm):
     class Meta:
         model = Profile
         fields = ['currency']
+
+class BudgetForm(forms.ModelForm):
+    class Meta:
+        model = Budget
+        fields = ['name', 'amount', 'category']
+        widgets = {
+            'name': forms.TextInput(attrs={'class': 'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'}),
+            'amount': forms.NumberInput(attrs={'class': 'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'}),
+            'category': forms.Select(attrs={'class': 'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'}),
+        }

@@ -1,8 +1,34 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block title %}Add budget{% endblock %}
+{% block title %}Budget Details{% endblock %}
 
 {% block content %}
-
+<div class="mx-auto max-w-2xl px-4 sm:px-6 lg:px-8 py-8">
+    <div class="bg-white rounded-xl shadow p-8">
+        <h2 class="text-2xl font-bold text-[#0f1416] mb-6">Budget Details</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+            <div>
+                <h3 class="text-lg font-semibold text-gray-700">Name</h3>
+                <p class="text-gray-900">{{ budget.name }}</p>
+            </div>
+            <div>
+                <h3 class="text-lg font-semibold text-gray-700">Amount</h3>
+                <p class="text-gray-900">${{ budget.amount|floatformat:2 }}</p>
+            </div>
+            <div>
+                <h3 class="text-lg font-semibold text-gray-700">Category</h3>
+                <p class="text-gray-900">{{ budget.category.name }}</p>
+            </div>
+        </div>
+        <div class="flex items-center justify-start gap-4">
+            <a href="{% url 'edit_budget' budget.id %}" class="bg-[#3f7fbf] text-white font-bold py-2 px-4 rounded-xl hover:bg-blue-700 transition">
+                Edit Budget
+            </a>
+            <a href="{% url 'budgets' %}" class="text-[#5b7289] hover:text-[#3f7fbf] font-semibold">
+                Back to Budgets
+            </a>
+        </div>
+    </div>
+</div>
 {% endblock %}
