@@ -65,6 +65,12 @@
         Save Changes
       </button>
     </form>
+    <form method="post" action="{% url 'delete_transaction' transaction.id %}" class="mt-4">
+      {% csrf_token %}
+      <button type="submit" class="w-full bg-red-600 text-white font-bold py-2 rounded-xl hover:bg-red-700 transition cursor-pointer">
+        Delete Transaction
+      </button>
+    </form>
     <div class="text-center text-sm text-[#5b7289] mt-4">
       <a href="{% url 'transactions' %}" class="hover:text-[#3f7fbf]">Back to Transactions</a>
     </div>

@@ -4,7 +4,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from .forms import TransactionForm, CategoryForm, MethodForm, ProfileForm, PreferencesForm
-from .models import Transaction, Profile
+from .models import Transaction, Profile, Budget
 
 @login_required
 def index_view(request):
@@ -166,7 +166,7 @@ def add_transaction_view(request):
 
 @login_required
 def edit_transaction_view(request, transaction_id):
-    transaction = get_object_or_404(Transaction, pk=transaction_id, user=request.user)  # Filter by user
+    transaction = get_object_or_404(Transaction, pk=transaction_id, user=request.user)
     if request.method == 'POST':
         form = TransactionForm(request.POST, instance=transaction)
         if form.is_valid():
@@ -182,7 +182,10 @@ def edit_transaction_view(request, transaction_id):
 
 @login_required
 def delete_transaction_view(request, transaction_id):
-    transaction = get_object_or_404(Transaction, pk=transaction_id, user=request.user)  # Filter by user
+    transaction = get_object_or_404(Transaction, pk=transaction_id, user=request.user)
+    if request.method == 'POST':
+        transaction.delete()
+        return redirect('transactions')
     return render(request, 'finance_tracker_app/delete_transaction.html', {'transaction_id': transaction_id})
 
 @login_required
@@ -192,8 +195,10 @@ def transaction_details_view(request, transaction_id):
 
 @login_required
 def budgets_view(request):
+    budgets = Budget.objects.filter(user=request.user)
     context = {
         'active_page': 'budgets',
+        'budgets': budgets,
     }
     return render(request, 'finance_tracker_app/budgets.html', context)
 

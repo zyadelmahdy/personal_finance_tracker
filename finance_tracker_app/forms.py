@@ -23,21 +23,20 @@ class ProfileForm(forms.ModelForm):
         model = Profile
         fields = ['image', 'user'] 
 
-    # Optionally, expose username and email via the user relation
     username = forms.CharField(max_length=150)
-    email = forms.EmailField()
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         if self.instance and self.instance.user:
             self.fields['username'].initial = self.instance.user.username
-            self.fields['email'].initial = self.instance.user.email
+        # If the form is bound and not valid, reset the image field to the original
+        if self.is_bound and not self.is_valid():
+            self.fields['image'].initial = self.instance.image
 
     def save(self, commit=True):
         profile = super().save(commit=False)
         user = profile.user
         user.username = self.cleaned_data['username']
-        user.email = self.cleaned_data['email']
         if commit:
             user.save()
             profile.save()

@@ -1,7 +1,7 @@
 .logo{
 color: #0F1417;
  font-size: 18px;
- font-family: Public Sans;
+ /* font-family: Public Sans; */
  font-weight: 700;
  line-height: 23px;
  word-wrap: break-word
@@ -11,7 +11,7 @@ color: #0F1417;
 .navbar_items_active {
     color: #0F1417;
     font-size: 14px;
-    font-family: 'Public Sans', sans-serif;
+    /* font-family: 'Public Sans', sans-serif; */
     font-weight: 500;
     line-height: 21px;
     word-wrap: break-word;

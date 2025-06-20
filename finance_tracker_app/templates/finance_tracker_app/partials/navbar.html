@@ -7,7 +7,7 @@
       <div class="flex-shrink-0">
         <a
           href="{% url 'index' %}"
-          class="text-xl font-bold text-[#0f1416] font-['Public_Sans'] hover:text-blue-600 transition"
+          class="text-xl font-bold text-[#0f1416] hover:text-blue-600 transition"
         >
           FinTrack
         </a>
@@ -16,21 +16,21 @@
       <div class="flex items-center space-x-8">
         <a
           href="{% url 'transactions' %}"
-          class="text-sm font-medium text-[#0f1416] font-['Public_Sans'] hover:text-gray-700 transition 
+          class="text-sm font-medium text-[#0f1416] hover:text-gray-700 transition 
           {% if active_page == 'transactions' %} !text-gray-700 {% endif %}"
         >
           Transactions
         </a>
         <a
           href="{% url 'budgets' %}"
-          class="text-sm font-medium text-[#0f1416] font-['Public_Sans'] hover:text-gray-700 transition 
+          class="text-sm font-medium text-[#0f1416] hover:text-gray-700 transition 
           {% if active_page == 'budgets' %} !text-gray-700 {% endif %}"
         >
           Budgets
         </a>
         <a
           href="{% url 'reports' %}"
-          class="text-sm font-medium text-[#0f1416] font-['Public_Sans'] hover:text-gray-700 transition 
+          class="text-sm font-medium text-[#0f1416] hover:text-gray-700 transition 
           {% if active_page == 'reports' %} !text-gray-700 {% endif %}"
         >
           Reports
