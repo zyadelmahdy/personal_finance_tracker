@@ -14,7 +14,107 @@ import csv
 
 @login_required
 def index_view(request):
-    return render(request, 'finance_tracker_app/index.html')
+    # Get date range (current month)
+    end_date = timezone.now()
+    start_date = end_date.replace(day=1)
+    
+    # Get user's transactions for current month
+    user_transactions = Transaction.objects.filter(user=request.user, date__range=[start_date, end_date])
+    
+    # Calculate summary data
+    total_income = user_transactions.filter(is_income=True).aggregate(Sum('amount'))['amount__sum'] or 0
+    total_expenses = user_transactions.filter(is_expense=True).aggregate(Sum('amount'))['amount__sum'] or 0
+    net_savings = total_income - total_expenses
+    
+    # Get previous month data for comparison
+    prev_month_start = (start_date - timedelta(days=1)).replace(day=1)
+    prev_month_end = start_date - timedelta(days=1)
+    prev_month_transactions = Transaction.objects.filter(user=request.user, date__range=[prev_month_start, prev_month_end])
+    prev_month_expenses = prev_month_transactions.filter(is_expense=True).aggregate(Sum('amount'))['amount__sum'] or 0
+    
+    # Calculate percentage change
+    expense_change = 0
+    if prev_month_expenses > 0:
+        expense_change = ((total_expenses - prev_month_expenses) / prev_month_expenses) * 100
+    
+    # Get top expense categories for current month
+    top_expense_categories = user_transactions.filter(is_expense=True).values('category__name').annotate(
+        total=Sum('amount')
+    ).order_by('-total')[:5]
+    
+    # Calculate percentage for each category
+    for category in top_expense_categories:
+        if total_expenses > 0:
+            category['percentage'] = (category['total'] / total_expenses) * 100
+        else:
+            category['percentage'] = 0
+    
+    # Get monthly savings trend (last 6 months)
+    monthly_savings = []
+    for i in range(6):
+        month_start = end_date.replace(day=1) - timedelta(days=30*i)
+        month_end = (month_start.replace(day=28) + timedelta(days=4)).replace(day=1) - timedelta(days=1)
+        
+        month_transactions = Transaction.objects.filter(
+            user=request.user,
+            date__year=month_start.year,
+            date__month=month_start.month
+        )
+        
+        month_income = month_transactions.filter(is_income=True).aggregate(Sum('amount'))['amount__sum'] or 0
+        month_expenses = month_transactions.filter(is_expense=True).aggregate(Sum('amount'))['amount__sum'] or 0
+        month_savings = month_income - month_expenses
+        
+        monthly_savings.append({
+            'month': month_start.strftime('%b'),
+            'savings': month_savings
+        })
+    
+    # Calculate savings trend
+    savings_change = 0
+    if len(monthly_savings) >= 2:
+        current_savings = monthly_savings[0]['savings']
+        prev_savings = monthly_savings[1]['savings']
+        if prev_savings != 0:
+            savings_change = ((current_savings - prev_savings) / abs(prev_savings)) * 100
+    
+    # Get recent transactions
+    recent_transactions = user_transactions.order_by('-date')[:5]
+    
+    # Get budget status
+    user_budgets = Budget.objects.filter(user=request.user)
+    budget_status = []
+    
+    for budget in user_budgets:
+        budget_spent = user_transactions.filter(
+            is_expense=True,
+            category=budget.category
+        ).aggregate(Sum('amount'))['amount__sum'] or 0
+        
+        budget_percentage = (budget_spent / budget.amount * 100) if budget.amount > 0 else 0
+        
+        budget_status.append({
+            'name': budget.name,
+            'category': budget.category.name,
+            'budgeted': budget.amount,
+            'spent': budget_spent,
+            'percentage': budget_percentage,
+            'status': 'over' if budget_spent > budget.amount else 'under' if budget_percentage < 80 else 'on_track'
+        })
+    
+    context = {
+        'total_income': total_income,
+        'total_expenses': total_expenses,
+        'net_savings': net_savings,
+        'expense_change': expense_change,
+        'savings_change': savings_change,
+        'top_expense_categories': top_expense_categories,
+        'monthly_savings': monthly_savings,
+        'recent_transactions': recent_transactions,
+        'budget_status': budget_status,
+        'current_month': end_date.strftime('%B %Y'),
+    }
+    return render(request, 'finance_tracker_app/index.html', context)
 
 def register_view(request):
     if request.method == 'POST':
