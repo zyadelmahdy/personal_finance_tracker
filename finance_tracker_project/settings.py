@@ -96,16 +96,26 @@ WSGI_APPLICATION = 'finance_tracker_project.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-import os
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': os.environ.get('DB_NAME'),
+#         'USER': os.environ.get('DB_USER'),
+#         'PASSWORD': os.environ.get('DB_PASSWORD'),
+#         'HOST': os.environ.get('DB_HOST'),
+#         'PORT': os.environ.get('DB_PORT', '5432'),
+#     }
+# }
 
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.environ.get('DB_NAME'),
-        'USER': os.environ.get('DB_USER'),
-        'PASSWORD': os.environ.get('DB_PASSWORD'),
-        'HOST': os.environ.get('DB_HOST'),
-        'PORT': os.environ.get('DB_PORT', '5432'),
+        'NAME': 'personal_finance_db_q5wh',
+        'USER': 'personal_finance_db_q5wh_user',
+        'PASSWORD': 'y2ZkZMLlIkrIhn4nRHFVDQOsrsQ14dmM',
+        'HOST': 'dpg-d1cn5j7diees73cg4svg-a.oregon-postgres.render.com',
+        'PORT': '5432',
     }
 }
 
