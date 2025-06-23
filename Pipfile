@@ -8,6 +8,7 @@ django = "*"
 psycopg2-binary = "*"
 django-widget-tweaks = "*"
 django-pwa = "*"
+gunicorn = "*"
 
 [dev-packages]
 
