@@ -102,7 +102,7 @@
   </section>
   <form method="post" action="{% url 'logout' %}" class="mx-auto max-w-2xl px-4 sm:px-6 lg:px-8 py-4">
     {% csrf_token %}
-    <button type="submit" class="w-full bg-gray-800 text-white font-bold py-3 px-4 rounded-2xl shadow hover:bg-gray-900 transition flex items-center justify-center gap-2">
+    <button type="submit" class="w-full bg-gray-800 text-white font-bold py-3 px-4 rounded-2xl shadow hover:bg-gray-900 transition flex items-center justify-center gap-2 cursor-pointer">
       <span class="material-icons text-white">logout</span> Sign Out
     </button>
   </form>

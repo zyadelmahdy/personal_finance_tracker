@@ -257,7 +257,7 @@ def transactions_view(request):
 @login_required
 def add_transaction_view(request):
     if request.method == 'POST':
-        form = TransactionForm(request.POST)
+        form = TransactionForm(request.POST, user=request.user)
         if form.is_valid():
             transaction = form.save(commit=False)
             transaction.user = request.user  # Set the user
@@ -267,14 +267,14 @@ def add_transaction_view(request):
             transaction.save()
             return redirect('transactions')
     else:
-        form = TransactionForm()
+        form = TransactionForm(user=request.user)
     return render(request, 'finance_tracker_app/add_transaction.html', {'form': form})
 
 @login_required
 def edit_transaction_view(request, transaction_id):
     transaction = get_object_or_404(Transaction, pk=transaction_id, user=request.user)
     if request.method == 'POST':
-        form = TransactionForm(request.POST, instance=transaction)
+        form = TransactionForm(request.POST, instance=transaction, user=request.user)
         if form.is_valid():
             transaction = form.save(commit=False)
             t_type = request.POST.get('transaction_type')
@@ -283,7 +283,7 @@ def edit_transaction_view(request, transaction_id):
             transaction.save()
             return redirect('transactions')
     else:
-        form = TransactionForm(instance=transaction)
+        form = TransactionForm(instance=transaction, user=request.user)
     return render(request, 'finance_tracker_app/edit_transaction.html', {'form': form, 'transaction': transaction})
 
 @login_required
@@ -311,7 +311,7 @@ def budgets_view(request):
 @login_required
 def add_budget_view(request):
     if request.method == 'POST':
-        form = BudgetForm(request.POST)
+        form = BudgetForm(request.POST, user=request.user)
         if form.is_valid():
             budget = form.save(commit=False)
             budget.user = request.user
@@ -319,20 +319,20 @@ def add_budget_view(request):
             messages.success(request, "Budget added successfully.")
             return redirect('budgets')
     else:
-        form = BudgetForm()
+        form = BudgetForm(user=request.user)
     return render(request, 'finance_tracker_app/add_budget.html', {'form': form})
 
 @login_required
 def edit_budget_view(request, budget_id):
     budget = get_object_or_404(Budget, pk=budget_id, user=request.user)
     if request.method == 'POST':
-        form = BudgetForm(request.POST, instance=budget)
+        form = BudgetForm(request.POST, instance=budget, user=request.user)
         if form.is_valid():
             form.save()
             messages.success(request, "Budget updated successfully.")
             return redirect('budgets')
     else:
-        form = BudgetForm(instance=budget)
+        form = BudgetForm(instance=budget, user=request.user)
     return render(request, 'finance_tracker_app/edit_budget.html', {'form': form, 'budget': budget})
 
 @login_required
@@ -691,7 +691,7 @@ def categories_view(request):
 def add_category_view(request):
     referer_url = request.META.get('HTTP_REFERER', reverse('transactions'))
     if request.method == 'POST':
-        form = CategoryForm(request.POST)
+        form = CategoryForm(request.POST, user=request.user)
         if form.is_valid():
             form.save()
             if 'from_modal' in request.POST:
@@ -699,7 +699,7 @@ def add_category_view(request):
             messages.success(request, 'Category added successfully!')
             return redirect(referer_url)
     else:
-        form = CategoryForm()
+        form = CategoryForm(user=request.user)
     return render(request, 'finance_tracker_app/add_category.html', {
         'form': form,
         'referer_url': referer_url
@@ -722,12 +722,12 @@ def method_view(request):
 @login_required
 def add_method_view(request):
     if request.method == 'POST':
-        form = MethodForm(request.POST)
+        form = MethodForm(request.POST, user=request.user)
         if form.is_valid():
             form.save()
             return redirect('add_transaction')
     else:
-        form = MethodForm()
+        form = MethodForm(user=request.user)
     return render(request, 'finance_tracker_app/add_method.html', {'form': form})
 
 @login_required

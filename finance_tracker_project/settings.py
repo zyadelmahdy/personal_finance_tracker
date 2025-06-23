@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'finance_tracker_app',
     'widget_tweaks',
+    'pwa',
 ]
 
 MIDDLEWARE = [
@@ -143,3 +144,26 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+
+PWA_APP_NAME = 'FinTrack'
+PWA_APP_DESCRIPTION = "FinTrack is a personal finance tracker that helps you manage your money and stay on top of your finances."
+PWA_APP_THEME_COLOR = '#3f7fbf'
+PWA_APP_BACKGROUND_COLOR = '#3f7fbf'
+PWA_APP_DISPLAY = 'standalone'
+PWA_APP_SCOPE = '/'
+PWA_APP_ORIENTATION = 'any'
+PWA_APP_START_URL = '/'
+PWA_APP_ICONS = [
+    {
+        'src': '/static/images/logo.png',
+        'sizes': '512x512'
+    }
+]
+PWA_APP_ICONS_APPLE = [
+    {
+        "src": "/static/images/logo.png",
+        "sizes": "512x512"
+    }
+]
+PWA_SERVICE_WORKER_PATH = os.path.join(BASE_DIR, 'static/js', 'serviceworker.js')

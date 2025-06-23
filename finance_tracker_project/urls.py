@@ -15,7 +15,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 from finance_tracker_app import views
 from django.conf import settings
 from django.conf.urls.static import static
@@ -86,7 +86,14 @@ urlpatterns = [
     path('savings/<int:saving_id>/delete/', views.delete_saving_view, name='delete_saving'),
     path('savings/<int:saving_id>/details/', views.saving_detail_view, name='saving_details'),
     
+    
+    #pwa
+    # path('serviceworker.js', views.serviceworker_view, name='serviceworker'),
+    path('', include('pwa.urls')),
 ]
+
+
+
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

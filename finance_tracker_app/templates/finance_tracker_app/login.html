@@ -35,14 +35,14 @@
         >
         {{ form.password.errors }}
       </div>
-      <button type="submit" class="w-full bg-[#3f7fbf] text-white font-bold py-2 rounded-xl hover:bg-blue-700 transition">Log in</button>
+      <button type="submit" class="w-full bg-[#3f7fbf] text-white font-bold py-2 rounded-xl hover:bg-blue-700 transition cursor-pointer">Log in</button>
     </form>
     <div class="text-center text-sm text-[#5b7289]">
-      <a href="#">Forgot password?</a>
+      <a class="cursor-pointer hover:text-gray-700" href="#">Forgot password?</a>
     </div>
     <div class="text-center text-sm text-[#5b7289]">
       Don't have an account?
-      <a class="hover:text-gray-700" href="{% url 'register' %}">Sign up</a>
+      <a class="hover:text-gray-700 cursor-pointer" href="{% url 'register' %}">Sign up</a>
     </div>
   </div>
 </div>

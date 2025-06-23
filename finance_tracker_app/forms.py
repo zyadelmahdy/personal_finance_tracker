@@ -7,17 +7,59 @@ class TransactionForm(forms.ModelForm):
     class Meta:
         model = Transaction
         fields = ['title', 'amount', 'description', 'category', 'method']
-        
+
+    def __init__(self, *args, **kwargs):
+        user = kwargs.pop('user', None)
+        super().__init__(*args, **kwargs)
+        if user:
+            self.fields['category'].queryset = Category.objects.filter(user=user)
+            self.fields['method'].queryset = Method.objects.filter(user=user)
+        # If the form is bound and not valid, reset the image field to the original
+        if self.is_bound and not self.is_valid():
+            self.fields['image'].initial = self.instance.image
+
+    def save(self, commit=True):
+        profile = super().save(commit=False)
+        user = profile.user
+        user.username = self.cleaned_data['username']
+        if commit:
+            user.save()
+            profile.save()
+        return profile
+
 class CategoryForm(forms.ModelForm):
     class Meta:
         model = Category
         fields = ['name']
-        
-        
+
+    def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop('user', None)
+        super().__init__(*args, **kwargs)
+
+    def save(self, commit=True):
+        instance = super().save(commit=False)
+        if self.user:
+            instance.user = self.user
+        if commit:
+            instance.save()
+        return instance
+
 class MethodForm(forms.ModelForm):
     class Meta:
         model = Method
         fields = ['name']
+
+    def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop('user', None)
+        super().__init__(*args, **kwargs)
+
+    def save(self, commit=True):
+        instance = super().save(commit=False)
+        if self.user:
+            instance.user = self.user
+        if commit:
+            instance.save()
+        return instance
 
 class ProfileForm(forms.ModelForm):
     class Meta:
@@ -66,3 +108,10 @@ class BudgetForm(forms.ModelForm):
             'amount': forms.NumberInput(attrs={'class': 'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'}),
             'category': forms.Select(attrs={'class': 'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'}),
         }
+
+    def __init__(self, *args, **kwargs):
+        user = kwargs.pop('user', None)
+        super().__init__(*args, **kwargs)
+        if user:
+            self.fields['category'].queryset = Category.objects.filter(user=user)
+        
