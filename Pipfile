@@ -11,6 +11,7 @@ django-pwa = "*"
 gunicorn = "*"
 dj-database-url = "*"
 whitenoise = "*"
+pillow = "*"
 
 [dev-packages]
 
