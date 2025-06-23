@@ -9,6 +9,7 @@ psycopg2-binary = "*"
 django-widget-tweaks = "*"
 django-pwa = "*"
 gunicorn = "*"
+dj-database-url = "*"
 
 [dev-packages]
 
