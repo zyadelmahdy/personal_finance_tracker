@@ -19,6 +19,11 @@ import sys
 DEBUG = True
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+import dj_database_url
+DATABASES = {
+    'default': dj_database_url.config(default='postgres://localhost/finance_tracker_db')
+    }
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
