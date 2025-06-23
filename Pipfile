@@ -10,6 +10,7 @@ django-widget-tweaks = "*"
 django-pwa = "*"
 gunicorn = "*"
 dj-database-url = "*"
+whitenoise = "*"
 
 [dev-packages]
 
