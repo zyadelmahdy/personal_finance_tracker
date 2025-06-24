@@ -144,10 +144,12 @@
     }
   }
   function togglePassword(btn) {
-    // Use .closest('.relative') to robustly find the input
+    console.log('togglePassword called', btn);
     const container = btn.closest('.relative');
+    console.log('container:', container);
     if (!container) return;
     const input = container.querySelector('input[type="password"], input[type="text"]');
+    console.log('input found:', input);
     if (!input) return;
     if (input.type === 'password') {
       input.type = 'text';
