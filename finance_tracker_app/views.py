@@ -269,10 +269,15 @@ def add_transaction_view(request):
     else:
         # Pre-populate form fields from GET params if present
         initial = {}
-        for field in ['title', 'amount', 'description', 'category', 'method']:
+        for field in ['title', 'amount', 'description', 'category', 'method', 'transaction_type']:
             if field in request.GET:
                 initial[field] = request.GET.get(field, '')
         form = TransactionForm(user=request.user, initial=initial)
+        # Set transaction_type radio button
+        if 'transaction_type' in request.GET:
+            t_type = request.GET.get('transaction_type')
+            form.fields['is_income'].initial = t_type == 'income'
+            form.fields['is_expense'].initial = t_type == 'expense'
     return render(request, 'finance_tracker_app/add_transaction.html', {'form': form})
 
 @login_required
@@ -702,6 +707,7 @@ def add_category_view(request):
     next_url = request.GET.get('next') or request.POST.get('next') or reverse('transactions')
     # Collect all possible form data from GET or POST
     params = ''
+    field_names = ['title', 'amount', 'description', 'transaction_type', 'category', 'method', 'name', 'amount', 'category']
     if request.method == 'POST':
         form = CategoryForm(request.POST, user=request.user)
         if form.is_valid():
@@ -711,8 +717,10 @@ def add_category_view(request):
             data.pop('csrfmiddlewaretoken', None)
             data.pop('name', None)  # Remove category name itself
             data.pop('next', None)
-            if data:
-                params = '?' + '&'.join([f'{k}={v}' for k, v in data.items() if v])
+            # Only keep relevant fields
+            filtered = {k: v for k, v in data.items() if k in field_names and v}
+            if filtered:
+                params = '?' + '&'.join([f'{k}={v}' for k, v in filtered.items()])
             messages.success(request, 'Category added successfully!')
             return redirect(next_url + params)
     else:
@@ -721,8 +729,9 @@ def add_category_view(request):
         data = request.GET.copy()
         data.pop('next', None)
         data.pop('name', None)
-        if data:
-            params = '?' + '&'.join([f'{k}={v}' for k, v in data.items() if v])
+        filtered = {k: v for k, v in data.items() if k in field_names and v}
+        if filtered:
+            params = '?' + '&'.join([f'{k}={v}' for k, v in filtered.items()])
     return render(request, 'finance_tracker_app/add_category.html', {
         'form': form,
         'referer_url': next_url + params
