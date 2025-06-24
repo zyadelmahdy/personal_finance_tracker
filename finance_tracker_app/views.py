@@ -327,6 +327,7 @@ def budgets_view(request):
     context = {
         'active_page': 'budgets',
         'budgets': budgets,
+        'currency': request.user.profile.currency,
     }
     return render(request, 'finance_tracker_app/budgets.html', context)
 
@@ -347,7 +348,7 @@ def add_budget_view(request):
             if field in request.GET:
                 initial[field] = request.GET.get(field, '')
         form = BudgetForm(user=request.user, initial=initial)
-    return render(request, 'finance_tracker_app/add_budget.html', {'form': form})
+    return render(request, 'finance_tracker_app/add_budget.html', {'form': form, 'currency': request.user.profile.currency})
 
 @login_required
 def edit_budget_view(request, budget_id):
@@ -360,7 +361,7 @@ def edit_budget_view(request, budget_id):
             return redirect('budgets')
     else:
         form = BudgetForm(instance=budget, user=request.user)
-    return render(request, 'finance_tracker_app/edit_budget.html', {'form': form, 'budget': budget})
+    return render(request, 'finance_tracker_app/edit_budget.html', {'form': form, 'budget': budget, 'currency': request.user.profile.currency})
 
 @login_required
 def delete_budget_view(request, budget_id):
@@ -369,12 +370,12 @@ def delete_budget_view(request, budget_id):
         budget.delete()
         messages.success(request, "Budget deleted successfully.")
         return redirect('budgets')
-    return render(request, 'finance_tracker_app/delete_budget.html', {'budget': budget})
+    return render(request, 'finance_tracker_app/delete_budget.html', {'budget': budget, 'currency': request.user.profile.currency})
 
 @login_required
 def budget_details_view(request, budget_id):
     budget = get_object_or_404(Budget, pk=budget_id, user=request.user)
-    return render(request, 'finance_tracker_app/budget_details.html', {'budget': budget})
+    return render(request, 'finance_tracker_app/budget_details.html', {'budget': budget, 'currency': request.user.profile.currency})
 
 @login_required
 def reports_view(request):
@@ -469,6 +470,7 @@ def reports_view(request):
         'recent_transactions': recent_transactions,
         'start_date': start_date,
         'end_date': end_date,
+        'currency': request.user.profile.currency,
     }
     return render(request, 'finance_tracker_app/reports.html', context)
 

@@ -27,7 +27,7 @@
                 {% for budget in budgets %}
                 <tr class="{% cycle 'bg-white' 'bg-gray-50' %} hover:bg-blue-50 transition">
                     <td class="px-4 py-3 whitespace-nowrap">{{ budget.name }}</td>
-                    <td class="px-4 py-3 whitespace-nowrap">${{ budget.amount|floatformat:2 }}</td>
+                    <td class="px-4 py-3 whitespace-nowrap">{{ currency }}{{ budget.amount|floatformat:2 }}</td>
                     <td class="px-4 py-3 whitespace-nowrap">{{ budget.category.name }}</td>
                     <td class="px-4 py-3 whitespace-nowrap">
                         <a href="{% url 'edit_budget' budget.id %}" class="inline-flex items-center bg-yellow-400 text-white px-2 py-1 rounded hover:bg-yellow-500 transition text-xs cursor-pointer">Edit</a>

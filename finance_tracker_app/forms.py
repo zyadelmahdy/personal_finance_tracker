@@ -14,9 +14,6 @@ class TransactionForm(forms.ModelForm):
         if user:
             self.fields['category'].queryset = Category.objects.filter(user=user)
             self.fields['method'].queryset = Method.objects.filter(user=user)
-        # If the form is bound and not valid, reset the image field to the original
-        if self.is_bound and not self.is_valid():
-            self.fields['image'].initial = self.instance.image
 
     def save(self, commit=True):
         instance = super().save(commit=False)

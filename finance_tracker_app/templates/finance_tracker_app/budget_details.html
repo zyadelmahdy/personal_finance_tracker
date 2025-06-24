@@ -14,7 +14,7 @@
             </div>
             <div>
                 <h3 class="text-lg font-semibold text-gray-700">Amount</h3>
-                <p class="text-gray-900">${{ budget.amount|floatformat:2 }}</p>
+                <p class="text-gray-900">{{ currency }}{{ budget.amount|floatformat:2 }}</p>
             </div>
             <div>
                 <h3 class="text-lg font-semibold text-gray-700">Category</h3>

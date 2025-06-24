@@ -16,16 +16,16 @@
   <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
     <div class="bg-white rounded-xl shadow p-6">
       <h3 class="text-lg font-semibold text-gray-700 mb-2">Total Income</h3>
-      <p class="text-3xl font-bold text-green-600">${{ total_income|floatformat:2 }}</p>
+      <p class="text-3xl font-bold text-green-600">{{ currency }}{{ total_income|floatformat:2 }}</p>
     </div>
     <div class="bg-white rounded-xl shadow p-6">
       <h3 class="text-lg font-semibold text-gray-700 mb-2">Total Expenses</h3>
-      <p class="text-3xl font-bold text-red-600">${{ total_expenses|floatformat:2 }}</p>
+      <p class="text-3xl font-bold text-red-600">{{ currency }}{{ total_expenses|floatformat:2 }}</p>
     </div>
     <div class="bg-white rounded-xl shadow p-6">
       <h3 class="text-lg font-semibold text-gray-700 mb-2">Net Income</h3>
       <p class="text-3xl font-bold {% if net_income >= 0 %}text-green-600{% else %}text-red-600{% endif %}">
-        ${{ net_income|floatformat:2 }}
+        {{ currency }}{{ net_income|floatformat:2 }}
       </p>
     </div>
   </div>
@@ -51,10 +51,10 @@
           <tr class="{% cycle 'bg-white' 'bg-gray-50' %} hover:bg-blue-50 transition">
             <td class="px-2 md:px-4 py-2 md:py-3 whitespace-nowrap">{{ analysis.budget.name }}</td>
             <td class="px-2 md:px-4 py-2 md:py-3 whitespace-nowrap">{{ analysis.budget.category.name }}</td>
-            <td class="px-2 md:px-4 py-2 md:py-3 whitespace-nowrap">${{ analysis.budget.amount|floatformat:2 }}</td>
-            <td class="px-2 md:px-4 py-2 md:py-3 whitespace-nowrap">${{ analysis.spent|floatformat:2 }}</td>
+            <td class="px-2 md:px-4 py-2 md:py-3 whitespace-nowrap">{{ currency }}{{ analysis.budget.amount|floatformat:2 }}</td>
+            <td class="px-2 md:px-4 py-2 md:py-3 whitespace-nowrap">{{ currency }}{{ analysis.spent|floatformat:2 }}</td>
             <td class="px-2 md:px-4 py-2 md:py-3 whitespace-nowrap {% if analysis.remaining < 0 %}text-red-600{% else %}text-green-600{% endif %}">
-              ${{ analysis.remaining|floatformat:2 }}
+              {{ currency }}{{ analysis.remaining|floatformat:2 }}
             </td>
             <td class="px-2 md:px-4 py-2 md:py-3 whitespace-nowrap">
               {% if analysis.status == 'over' %}
@@ -96,7 +96,7 @@
           {% for category in top_spending %}
           <tr class="{% cycle 'bg-white' 'bg-gray-50' %} hover:bg-blue-50 transition">
             <td class="px-4 py-3 whitespace-nowrap">{{ category.category__name|default:"Uncategorized" }}</td>
-            <td class="px-4 py-3 whitespace-nowrap">${{ category.total|floatformat:2 }}</td>
+            <td class="px-4 py-3 whitespace-nowrap">{{ currency }}{{ category.total|floatformat:2 }}</td>
             <td class="px-4 py-3 whitespace-nowrap">{{ category.count }}</td>
           </tr>
           {% endfor %}
@@ -125,7 +125,7 @@
           {% for transaction in recent_transactions %}
           <tr class="{% cycle 'bg-white' 'bg-gray-50' %} hover:bg-blue-50 transition">
             <td class="px-2 md:px-4 py-2 md:py-3 whitespace-nowrap">{{ transaction.title }}</td>
-            <td class="px-2 md:px-4 py-2 md:py-3 whitespace-nowrap">${{ transaction.amount|floatformat:2 }}</td>
+            <td class="px-2 md:px-4 py-2 md:py-3 whitespace-nowrap">{{ currency }}{{ transaction.amount|floatformat:2 }}</td>
             <td class="px-2 md:px-4 py-2 md:py-3 whitespace-nowrap">{{ transaction.category.name|default:"Uncategorized" }}</td>
             <td class="px-2 md:px-4 py-2 md:py-3 whitespace-nowrap">
               {% if transaction.is_income %}
@@ -163,10 +163,10 @@
           {% for month in monthly_data %}
           <tr class="{% cycle 'bg-white' 'bg-gray-50' %} hover:bg-blue-50 transition">
             <td class="px-4 py-3 whitespace-nowrap">{{ month.month }}</td>
-            <td class="px-4 py-3 whitespace-nowrap text-green-600">${{ month.income|floatformat:2 }}</td>
-            <td class="px-4 py-3 whitespace-nowrap text-red-600">${{ month.expenses|floatformat:2 }}</td>
+            <td class="px-4 py-3 whitespace-nowrap text-green-600">{{ currency }}{{ month.income|floatformat:2 }}</td>
+            <td class="px-4 py-3 whitespace-nowrap text-red-600">{{ currency }}{{ month.expenses|floatformat:2 }}</td>
             <td class="px-4 py-3 whitespace-nowrap {% if month.net >= 0 %}text-green-600{% else %}text-red-600{% endif %}">
-              ${{ month.net|floatformat:2 }}
+              {{ currency }}{{ month.net|floatformat:2 }}
             </td>
           </tr>
           {% endfor %}
