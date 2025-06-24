@@ -12,17 +12,9 @@
           FinTrack
         </a>
       </div>
-      <!-- Hamburger for mobile -->
-      <div class="flex md:hidden">
-        <button id="navbar-toggle" class="text-gray-700 focus:outline-none" aria-label="Toggle navigation">
-          <svg class="h-8 w-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-          </svg>
-        </button>
-      </div>
       <!-- Nav Items and Profile Pic -->
       <div class="flex items-center">
-        <div id="navbar-menu" class="hidden md:flex md:flex-row md:items-center md:space-x-8 md:space-y-0 md:static md:w-auto md:bg-transparent md:shadow-none md:p-0 flex-col space-y-4 absolute top-16 left-0 w-full bg-white z-50 shadow p-4">
+        <div id="navbar-menu" class="hidden md:flex md:flex-row md:items-center md:space-x-8 md:static md:w-auto md:bg-transparent md:shadow-none md:p-0 flex-col space-y-4 absolute top-16 left-0 w-full bg-white z-50 shadow p-4">
           <a
             href="{% url 'transactions' %}"
             class="block md:inline-block text-sm font-medium text-[#0f1416] hover:text-gray-700 transition py-2 md:py-0"
@@ -35,8 +27,8 @@
             class="block md:inline-block text-sm font-medium text-[#0f1416] hover:text-gray-700 transition py-2 md:py-0"
             {% if active_page == 'budgets' %} !text-gray-700 {% endif %}
           >
-          Budgets
-        </a>
+            Budgets
+          </a>
           <a
             href="{% url 'categories' %}"
             class="block md:inline-block text-sm font-medium text-[#0f1416] hover:text-gray-700 transition py-2 md:py-0"
@@ -72,6 +64,14 @@
             {% if active_page == 'settings' %} !border-gray-500 {% endif %}"
           />
         </a>
+        <!-- Hamburger for mobile (move here) -->
+        <div class="flex md:hidden ml-2">
+          <button id="navbar-toggle" class="text-gray-700 focus:outline-none" aria-label="Toggle navigation">
+            <svg class="h-8 w-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+          </button>
+        </div>
       </div>
     </div>
   </div>
