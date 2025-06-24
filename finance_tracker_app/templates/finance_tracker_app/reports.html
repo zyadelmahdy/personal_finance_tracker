@@ -35,28 +35,28 @@
   <div class="mb-8">
     <h3 class="text-xl font-bold mb-4">Budget Analysis</h3>
     <div class="rounded-xl shadow w-full overflow-x-auto">
-      <table class="min-w-full table-auto bg-white rounded-xl text-sm">
+      <table class="min-w-full table-auto bg-white rounded-xl text-xs md:text-sm">
         <thead class="bg-gray-50">
           <tr>
-            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Budget</th>
-            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Category</th>
-            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Budgeted</th>
-            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Spent</th>
-            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Remaining</th>
-            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+            <th class="px-2 md:px-4 py-2 md:py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">Budget</th>
+            <th class="px-2 md:px-4 py-2 md:py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">Category</th>
+            <th class="px-2 md:px-4 py-2 md:py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">Budgeted</th>
+            <th class="px-2 md:px-4 py-2 md:py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">Spent</th>
+            <th class="px-2 md:px-4 py-2 md:py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">Remaining</th>
+            <th class="px-2 md:px-4 py-2 md:py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">Status</th>
           </tr>
         </thead>
         <tbody>
           {% for analysis in budget_analysis %}
           <tr class="{% cycle 'bg-white' 'bg-gray-50' %} hover:bg-blue-50 transition">
-            <td class="px-4 py-3 whitespace-nowrap">{{ analysis.budget.name }}</td>
-            <td class="px-4 py-3 whitespace-nowrap">{{ analysis.budget.category.name }}</td>
-            <td class="px-4 py-3 whitespace-nowrap">${{ analysis.budget.amount|floatformat:2 }}</td>
-            <td class="px-4 py-3 whitespace-nowrap">${{ analysis.spent|floatformat:2 }}</td>
-            <td class="px-4 py-3 whitespace-nowrap {% if analysis.remaining < 0 %}text-red-600{% else %}text-green-600{% endif %}">
+            <td class="px-2 md:px-4 py-2 md:py-3 whitespace-nowrap">{{ analysis.budget.name }}</td>
+            <td class="px-2 md:px-4 py-2 md:py-3 whitespace-nowrap">{{ analysis.budget.category.name }}</td>
+            <td class="px-2 md:px-4 py-2 md:py-3 whitespace-nowrap">${{ analysis.budget.amount|floatformat:2 }}</td>
+            <td class="px-2 md:px-4 py-2 md:py-3 whitespace-nowrap">${{ analysis.spent|floatformat:2 }}</td>
+            <td class="px-2 md:px-4 py-2 md:py-3 whitespace-nowrap {% if analysis.remaining < 0 %}text-red-600{% else %}text-green-600{% endif %}">
               ${{ analysis.remaining|floatformat:2 }}
             </td>
-            <td class="px-4 py-3 whitespace-nowrap">
+            <td class="px-2 md:px-4 py-2 md:py-3 whitespace-nowrap">
               {% if analysis.status == 'over' %}
                 <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
                   Over Budget

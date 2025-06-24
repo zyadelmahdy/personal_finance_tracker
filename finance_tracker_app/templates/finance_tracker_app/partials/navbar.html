@@ -24,29 +24,29 @@
       <div id="navbar-menu" class="hidden md:flex flex-col md:flex-row md:items-center space-y-4 md:space-y-0 md:space-x-8 absolute md:static top-16 left-0 w-full md:w-auto bg-white md:bg-transparent z-50 shadow md:shadow-none p-4 md:p-0">
         <a
           href="{% url 'transactions' %}"
-          class="text-sm font-medium text-[#0f1416] hover:text-gray-700 transition 
-          {% if active_page == 'transactions' %} !text-gray-700 {% endif %}"
+          class="block w-full text-sm font-medium text-[#0f1416] hover:text-gray-700 transition py-2 md:py-0 md:inline md:w-auto md:block md:mx-0"
+          {% if active_page == 'transactions' %} !text-gray-700 {% endif %}
         >
           Transactions
         </a>
         <a
           href="{% url 'budgets' %}"
-          class="text-sm font-medium text-[#0f1416] hover:text-gray-700 transition 
-          {% if active_page == 'budgets' %} !text-gray-700 {% endif %}"
+          class="block w-full text-sm font-medium text-[#0f1416] hover:text-gray-700 transition py-2 md:py-0 md:inline md:w-auto md:block md:mx-0"
+          {% if active_page == 'budgets' %} !text-gray-700 {% endif %}
         >
           Budgets
         </a>
         <a
           href="{% url 'reports' %}"
-          class="text-sm font-medium text-[#0f1416] hover:text-gray-700 transition 
-          {% if active_page == 'reports' %} !text-gray-700 {% endif %}"
+          class="block w-full text-sm font-medium text-[#0f1416] hover:text-gray-700 transition py-2 md:py-0 md:inline md:w-auto md:block md:mx-0"
+          {% if active_page == 'reports' %} !text-gray-700 {% endif %}
         >
           Reports
         </a>
         <!-- Profile Pic -->
         <a
           href="{% url 'settings' %}"
-          class="ml-4 {% if active_page == 'settings' %} !border-gray-500 {% endif %}"
+          class="ml-4 md:ml-4 {% if active_page == 'settings' %} !border-gray-500 {% endif %}"
         >
           <img
             src="{% static 'finance_tracker_app/images/profile_pic.png' %}"
