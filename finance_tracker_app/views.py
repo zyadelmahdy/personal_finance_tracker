@@ -4,7 +4,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from .forms import TransactionForm, CategoryForm, MethodForm, ProfileForm, PreferencesForm, BudgetForm
-from .models import Transaction, Profile, Budget
+from .models import Transaction, Profile, Budget, Category, Method
 from django.urls import reverse
 from django.http import JsonResponse, HttpResponse
 from django.db.models import Sum, Count
@@ -700,50 +700,42 @@ def saving_detail_view(request, saving_id):
 
 @login_required
 def categories_view(request):
-    return render(request, 'finance_tracker_app/categories.html')
+    categories = Category.objects.filter(user=request.user)
+    return render(request, 'finance_tracker_app/categories.html', {'categories': categories})
 
 @login_required
 def add_category_view(request):
-    next_url = request.GET.get('next') or request.POST.get('next') or reverse('transactions')
-    # Collect all possible form data from GET or POST
-    params = ''
-    field_names = ['title', 'amount', 'description', 'transaction_type', 'category', 'method', 'name', 'amount', 'category']
     if request.method == 'POST':
         form = CategoryForm(request.POST, user=request.user)
         if form.is_valid():
             form.save()
-            # Collect all possible form data from POST
-            data = request.POST.copy()
-            data.pop('csrfmiddlewaretoken', None)
-            data.pop('name', None)  # Remove category name itself
-            data.pop('next', None)
-            # Only keep relevant fields
-            filtered = {k: v for k, v in data.items() if k in field_names and v}
-            if filtered:
-                params = '?' + '&'.join([f'{k}={v}' for k, v in filtered.items()])
-            messages.success(request, 'Category added successfully!')
-            return redirect(next_url + params)
+            messages.success(request, "Category added successfully!")
+            return redirect('categories')
     else:
         form = CategoryForm(user=request.user)
-        # Also collect GET params for redirect if needed
-        data = request.GET.copy()
-        data.pop('next', None)
-        data.pop('name', None)
-        filtered = {k: v for k, v in data.items() if k in field_names and v}
-        if filtered:
-            params = '?' + '&'.join([f'{k}={v}' for k, v in filtered.items()])
-    return render(request, 'finance_tracker_app/add_category.html', {
-        'form': form,
-        'referer_url': next_url + params
-    })
+    return render(request, 'finance_tracker_app/add_category.html', {'form': form})
 
 @login_required
 def edit_category_view(request, category_id):
-    return render(request, 'finance_tracker_app/edit_category.html', {'category_id': category_id})
+    category = get_object_or_404(Category, pk=category_id, user=request.user)
+    if request.method == 'POST':
+        form = CategoryForm(request.POST, instance=category, user=request.user)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Category updated successfully!")
+            return redirect('categories')
+    else:
+        form = CategoryForm(instance=category, user=request.user)
+    return render(request, 'finance_tracker_app/edit_category.html', {'form': form, 'category': category})
 
 @login_required
 def delete_category_view(request, category_id):
-    return render(request, 'finance_tracker_app/delete_category.html', {'category_id': category_id})
+    category = get_object_or_404(Category, pk=category_id, user=request.user)
+    if request.method == 'POST':
+        category.delete()
+        messages.success(request, "Category deleted successfully!")
+        return redirect('categories')
+    return render(request, 'finance_tracker_app/delete_category.html', {'category': category})
 
 
 
@@ -752,44 +744,43 @@ def method_view(request):
     return render(request, 'finance_tracker_app/method.html')
 
 @login_required
+def methods_view(request):
+    methods = Method.objects.filter(user=request.user)
+    return render(request, 'finance_tracker_app/method.html', {'methods': methods})
+
+@login_required
 def add_method_view(request):
-    next_url = request.GET.get('next') or request.POST.get('next') or reverse('add_transaction')
-    params = ''
-    field_names = ['title', 'amount', 'description', 'transaction_type', 'category', 'method', 'name', 'amount', 'category']
     if request.method == 'POST':
         form = MethodForm(request.POST, user=request.user)
         if form.is_valid():
             form.save()
-            # Collect all possible form data from POST
-            data = request.POST.copy()
-            data.pop('csrfmiddlewaretoken', None)
-            data.pop('name', None)  # Remove method name itself
-            data.pop('next', None)
-            filtered = {k: v for k, v in data.items() if k in field_names and v}
-            if filtered:
-                params = '?' + '&'.join([f'{k}={v}' for k, v in filtered.items()])
-            messages.success(request, 'Method added successfully!')
-            return redirect(next_url + params)
+            messages.success(request, "Method added successfully!")
+            return redirect('methods')
     else:
         form = MethodForm(user=request.user)
-        data = request.GET.copy()
-        data.pop('next', None)
-        data.pop('name', None)
-        filtered = {k: v for k, v in data.items() if k in field_names and v}
-        if filtered:
-            params = '?' + '&'.join([f'{k}={v}' for k, v in filtered.items()])
-    return render(request, 'finance_tracker_app/add_method.html', {
-        'form': form,
-        'referer_url': next_url + params
-    })
+    return render(request, 'finance_tracker_app/add_method.html', {'form': form})
 
 @login_required
 def edit_method_view(request, method_id):
-    return render(request, 'finance_tracker_app/edit_method.html', {'method_id': method_id})
+    method = get_object_or_404(Method, pk=method_id, user=request.user)
+    if request.method == 'POST':
+        form = MethodForm(request.POST, instance=method, user=request.user)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Method updated successfully!")
+            return redirect('methods')
+    else:
+        form = MethodForm(instance=method, user=request.user)
+    return render(request, 'finance_tracker_app/edit_method.html', {'form': form, 'method': method})
 
 @login_required
 def delete_method_view(request, method_id):
-    return render(request, 'finance_tracker_app/delete_method.html', {'method_id': method_id})
+    method = get_object_or_404(Method, pk=method_id, user=request.user)
+    if request.method == 'POST':
+        method.delete()
+        messages.success(request, "Method deleted successfully!")
+        return redirect('methods')
+    return render(request, 'finance_tracker_app/delete_method.html', {'method': method})
 
 @login_required
 def method_details_view(request, method_id):

@@ -38,10 +38,10 @@ urlpatterns = [
     
     
     #payment method management
-    path('methods/', views.method_view, name='methods'),
-    path('add_method/', views.add_method_view, name='add_method'),
-    path('entry/<int:method_id>/edit/', views.edit_method_view, name='edit_method'),
-    path('entry/<int:method_id>/delete/', views.delete_method_view, name='delete_method'),
+    path('methods/', views.methods_view, name='methods'),
+    path('methods/add/', views.add_method_view, name='add_method'),
+    path('methods/<int:method_id>/edit/', views.edit_method_view, name='edit_method'),
+    path('methods/<int:method_id>/delete/', views.delete_method_view, name='delete_method'),
     path('entry/<int:method_id>/details/', views.method_details_view, name='method_details'),
     
     
