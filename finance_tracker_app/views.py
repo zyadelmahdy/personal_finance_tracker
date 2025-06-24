@@ -697,7 +697,7 @@ def categories_view(request):
 
 @login_required
 def add_category_view(request):
-    referer_url = request.META.get('HTTP_REFERER', reverse('add_transaction'))
+    next_url = request.GET.get('next') or request.POST.get('next') or reverse('transactions')
     if request.method == 'POST':
         form = CategoryForm(request.POST, user=request.user)
         if form.is_valid():
@@ -711,12 +711,12 @@ def add_category_view(request):
             if title or amount or description or transaction_type:
                 params = f'?title={title}&amount={amount}&description={description}&transaction_type={transaction_type}'
             messages.success(request, 'Category added successfully!')
-            return redirect(reverse('add_transaction') + params)
+            return redirect(next_url + params)
     else:
         form = CategoryForm(user=request.user)
     return render(request, 'finance_tracker_app/add_category.html', {
         'form': form,
-        'referer_url': referer_url
+        'referer_url': next_url
     })
 
 @login_required
