@@ -83,15 +83,30 @@
         <div class="flex flex-col gap-4">
           <div>
             <label class="block text-sm font-medium text-gray-700 mb-1">Current Password</label>
-            {% render_field password_form.old_password class="block w-full px-3 py-2 border border-gray-300 bg-gray-50 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" %}
+            <div class="relative">
+              {% render_field password_form.old_password class="block w-full px-3 py-2 border border-gray-300 bg-gray-50 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 pr-10" %}
+              <button type="button" onclick="togglePassword('id_password-old_password', this)" tabindex="-1" class="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-700 focus:outline-none">
+                <span class="material-icons">visibility</span>
+              </button>
+            </div>
           </div>
           <div> 
             <label class="block text-sm font-medium text-gray-700 mb-1">New Password</label>
-            {% render_field password_form.new_password1 class="block w-full px-3 py-2 border border-gray-300 bg-gray-50 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" %}
+            <div class="relative">
+              {% render_field password_form.new_password1 class="block w-full px-3 py-2 border border-gray-300 bg-gray-50 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 pr-10" %}
+              <button type="button" onclick="togglePassword('id_password-new_password1', this)" tabindex="-1" class="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-700 focus:outline-none">
+                <span class="material-icons">visibility</span>
+              </button>
+            </div>
           </div>
           <div>
             <label class="block text-sm font-medium text-gray-700 mb-1">Confirm New Password</label>
-            {% render_field password_form.new_password2 class="block w-full px-3 py-2 border border-gray-300 bg-gray-50 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" %}
+            <div class="relative">
+              {% render_field password_form.new_password2 class="block w-full px-3 py-2 border border-gray-300 bg-gray-50 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 pr-10" %}
+              <button type="button" onclick="togglePassword('id_password-new_password2', this)" tabindex="-1" class="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-700 focus:outline-none">
+                <span class="material-icons">visibility</span>
+              </button>
+            </div>
           </div>
         </div>
         <button type="submit" name="password_submit" class="w-full mt-4 bg-red-600 text-white px-4 py-2 rounded-xl font-bold hover:bg-red-700 transition flex items-center justify-center gap-2 cursor-pointer">
@@ -126,6 +141,16 @@
     } else {
       fileNameSpan.textContent = '';
       previewMsg.classList.add('hidden');
+    }
+  }
+  function togglePassword(fieldId, btn) {
+    const input = document.getElementById(fieldId);
+    if (input && input.type === 'password') {
+      input.type = 'text';
+      btn.querySelector('span').textContent = 'visibility_off';
+    } else if (input) {
+      input.type = 'password';
+      btn.querySelector('span').textContent = 'visibility';
     }
   }
 </script>

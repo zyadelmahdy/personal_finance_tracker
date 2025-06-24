@@ -62,7 +62,7 @@ class MethodForm(forms.ModelForm):
 class ProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
-        fields = ['image', 'user'] 
+        fields = ['image']  # Only image is editable here
 
     username = forms.CharField(max_length=150)
 
@@ -70,7 +70,6 @@ class ProfileForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         if self.instance and self.instance.user:
             self.fields['username'].initial = self.instance.user.username
-        # If the form is bound and not valid, reset the image field to the original
         if self.is_bound and not self.is_valid():
             self.fields['image'].initial = self.instance.image
 

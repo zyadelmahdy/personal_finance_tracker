@@ -113,6 +113,7 @@ def index_view(request):
         'recent_transactions': recent_transactions,
         'budget_status': budget_status,
         'current_month': end_date.strftime('%B %Y'),
+        'currency': request.user.profile.currency,
     }
     return render(request, 'finance_tracker_app/index.html', context)
 
