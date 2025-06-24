@@ -4,7 +4,7 @@
 {% block title %}Login{% endblock %}
 
 {% block content %}
-{% if user.is_authenticated %}
+{% if not user.is_authenticated %}
 <div class="min-h-screen flex items-center justify-center bg-gray-50">
   <div class="w-full max-w-md bg-white rounded-xl shadow p-8 flex flex-col gap-6">
     <h2 class="text-center text-3xl font-bold text-[#0f1416] font-['Public_Sans']">Welcome back</h2>
