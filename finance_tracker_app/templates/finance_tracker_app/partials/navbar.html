@@ -22,7 +22,7 @@
       </div>
       <!-- Nav Items and Profile Pic -->
       <div class="flex items-center">
-        <div id="navbar-menu" class="hidden md:flex md:flex-row md:items-center md:space-x-8 md:static md:w-auto md:bg-transparent md:shadow-none md:p-0 flex-col space-y-4 absolute top-16 left-0 w-full bg-white z-50 shadow p-4">
+        <div id="navbar-menu" class="hidden md:flex md:flex-row md:items-center md:space-x-8 md:space-y-0 md:static md:w-auto md:bg-transparent md:shadow-none md:p-0 flex-col space-y-4 absolute top-16 left-0 w-full bg-white z-50 shadow p-4">
           <a
             href="{% url 'transactions' %}"
             class="block md:inline-block text-sm font-medium text-[#0f1416] hover:text-gray-700 transition py-2 md:py-0"
@@ -35,7 +35,21 @@
             class="block md:inline-block text-sm font-medium text-[#0f1416] hover:text-gray-700 transition py-2 md:py-0"
             {% if active_page == 'budgets' %} !text-gray-700 {% endif %}
           >
-            Budgets
+
+          <a
+            href="{% url 'categories' %}"
+            class="block md:inline-block text-sm font-medium text-[#0f1416] hover:text-gray-700 transition py-2 md:py-0"
+            {% if active_page == 'categories' %} !text-gray-700 {% endif %}
+          >
+            Categories
+          </a>
+
+          <a
+            href="{% url 'method' %}"
+            class="block md:inline-block text-sm font-medium text-[#0f1416] hover:text-gray-700 transition py-2 md:py-0"
+            {% if active_page == 'method' %} !text-gray-700 {% endif %}
+          >
+            Payment Methods
           </a>
           <a
             href="{% url 'reports' %}"

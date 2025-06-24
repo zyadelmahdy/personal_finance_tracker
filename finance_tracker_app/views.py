@@ -701,7 +701,11 @@ def saving_detail_view(request, saving_id):
 @login_required
 def categories_view(request):
     categories = Category.objects.filter(user=request.user)
-    return render(request, 'finance_tracker_app/categories.html', {'categories': categories})
+    context = {
+        'categories': categories,
+        'active_page': 'categories',
+    }
+    return render(request, 'finance_tracker_app/categories.html', context)
 
 @login_required
 def add_category_view(request):
@@ -738,15 +742,14 @@ def delete_category_view(request, category_id):
     return render(request, 'finance_tracker_app/delete_category.html', {'category': category})
 
 
-
-@login_required
-def method_view(request):
-    return render(request, 'finance_tracker_app/method.html')
-
 @login_required
 def methods_view(request):
     methods = Method.objects.filter(user=request.user)
-    return render(request, 'finance_tracker_app/method.html', {'methods': methods})
+    context = {
+        'methods': methods,
+        'active_page': 'method',
+    }
+    return render(request, 'finance_tracker_app/method.html', context)
 
 @login_required
 def add_method_view(request):
