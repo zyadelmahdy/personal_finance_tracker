@@ -753,22 +753,35 @@ def method_view(request):
 
 @login_required
 def add_method_view(request):
+    next_url = request.GET.get('next') or request.POST.get('next') or reverse('add_transaction')
+    params = ''
+    field_names = ['title', 'amount', 'description', 'transaction_type', 'category', 'method', 'name', 'amount', 'category']
     if request.method == 'POST':
         form = MethodForm(request.POST, user=request.user)
         if form.is_valid():
             form.save()
-            # Preserve transaction form data if present
-            title = request.POST.get('title', '')
-            amount = request.POST.get('amount', '')
-            description = request.POST.get('description', '')
-            transaction_type = request.POST.get('transaction_type', '')
-            params = ''
-            if title or amount or description or transaction_type:
-                params = f'?title={title}&amount={amount}&description={description}&transaction_type={transaction_type}'
-            return redirect(reverse('add_transaction') + params)
+            # Collect all possible form data from POST
+            data = request.POST.copy()
+            data.pop('csrfmiddlewaretoken', None)
+            data.pop('name', None)  # Remove method name itself
+            data.pop('next', None)
+            filtered = {k: v for k, v in data.items() if k in field_names and v}
+            if filtered:
+                params = '?' + '&'.join([f'{k}={v}' for k, v in filtered.items()])
+            messages.success(request, 'Method added successfully!')
+            return redirect(next_url + params)
     else:
         form = MethodForm(user=request.user)
-    return render(request, 'finance_tracker_app/add_method.html', {'form': form})
+        data = request.GET.copy()
+        data.pop('next', None)
+        data.pop('name', None)
+        filtered = {k: v for k, v in data.items() if k in field_names and v}
+        if filtered:
+            params = '?' + '&'.join([f'{k}={v}' for k, v in filtered.items()])
+    return render(request, 'finance_tracker_app/add_method.html', {
+        'form': form,
+        'referer_url': next_url + params
+    })
 
 @login_required
 def edit_method_view(request, method_id):
