@@ -63,6 +63,9 @@ class ProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
         fields = ['image']  # Only image is editable here
+        widgets = {
+            'image': forms.FileInput(attrs={'class': 'hidden'}),  # Custom widget without clear checkbox
+        }
 
     username = forms.CharField(max_length=150)
 

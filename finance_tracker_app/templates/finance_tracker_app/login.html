@@ -35,7 +35,7 @@
             required
             id="id_password"
           >
-          <button type="button" onclick="togglePassword('id_password', this)" tabindex="-1" class="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-700 focus:outline-none">
+          <button type="button" onclick="togglePassword(this)" tabindex="-1" class="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-700 focus:outline-none">
             <span class="material-icons">visibility</span>
           </button>
         </div>
@@ -59,9 +59,16 @@
 {% endif %}
 {% endblock %}
 
+{% block extra_js %}
 <script>
-function togglePassword(fieldId, btn) {
-  const input = document.getElementById(fieldId);
+function togglePassword(btn) {
+  console.log('togglePassword called', btn);
+  const container = btn.closest('.relative');
+  console.log('container:', container);
+  if (!container) return;
+  const input = container.querySelector('input[type="password"], input[type="text"]');
+  console.log('input found:', input);
+  if (!input) return;
   if (input.type === 'password') {
     input.type = 'text';
     btn.querySelector('span').textContent = 'visibility_off';
@@ -71,3 +78,4 @@ function togglePassword(fieldId, btn) {
   }
 }
 </script>
+{% endblock %}
