@@ -55,7 +55,7 @@
           {{ form.category|add_class:"w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" }}
           {{ form.category.errors }}
         </div>
-        <a href="{% url 'add_category' %}" class="h-[42px] flex items-center bg-[#3f7fbf] text-white px-3 py-2 rounded-lg hover:bg-blue-700 transition text-sm whitespace-nowrap">
+        <a href="{% url 'add_category' %}?title={{ form.title.value|urlencode }}&amount={{ form.amount.value|urlencode }}&description={{ form.description.value|urlencode }}&transaction_type={% if form.is_income.value %}income{% elif form.is_expense.value %}expense{% endif %}" class="h-[42px] flex items-center bg-[#3f7fbf] text-white px-3 py-2 rounded-lg hover:bg-blue-700 transition text-sm whitespace-nowrap">
           + New
         </a>
       </div>
@@ -65,7 +65,7 @@
           {{ form.method|add_class:"w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" }}
           {{ form.method.errors }}
         </div>
-        <a href="{% url 'add_entry' %}" class="h-[42px] flex items-center bg-[#3f7fbf] text-white px-3 py-2 rounded-lg hover:bg-blue-700 transition text-sm whitespace-nowrap">
+        <a href="{% url 'add_method' %}?title={{ form.title.value|urlencode }}&amount={{ form.amount.value|urlencode }}&description={{ form.description.value|urlencode }}&transaction_type={% if form.is_income.value %}income{% elif form.is_expense.value %}expense{% endif %}" class="h-[42px] flex items-center bg-[#3f7fbf] text-white px-3 py-2 rounded-lg hover:bg-blue-700 transition text-sm whitespace-nowrap">
           + New
         </a>
       </div>

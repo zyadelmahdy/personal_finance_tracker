@@ -267,7 +267,15 @@ def add_transaction_view(request):
             transaction.save()
             return redirect('transactions')
     else:
-        form = TransactionForm(user=request.user)
+        # Pre-populate form fields from GET params if present
+        initial = {}
+        if 'title' in request.GET:
+            initial['title'] = request.GET.get('title', '')
+        if 'amount' in request.GET:
+            initial['amount'] = request.GET.get('amount', '')
+        if 'description' in request.GET:
+            initial['description'] = request.GET.get('description', '')
+        form = TransactionForm(user=request.user, initial=initial)
     return render(request, 'finance_tracker_app/add_transaction.html', {'form': form})
 
 @login_required
@@ -689,15 +697,21 @@ def categories_view(request):
 
 @login_required
 def add_category_view(request):
-    referer_url = request.META.get('HTTP_REFERER', reverse('transactions'))
+    referer_url = request.META.get('HTTP_REFERER', reverse('add_transaction'))
     if request.method == 'POST':
         form = CategoryForm(request.POST, user=request.user)
         if form.is_valid():
             form.save()
-            if 'from_modal' in request.POST:
-                 return JsonResponse({'success': True, 'category_id': form.instance.id, 'category_name': form.instance.name})
+            # Preserve transaction form data if present
+            title = request.POST.get('title', '')
+            amount = request.POST.get('amount', '')
+            description = request.POST.get('description', '')
+            transaction_type = request.POST.get('transaction_type', '')
+            params = ''
+            if title or amount or description or transaction_type:
+                params = f'?title={title}&amount={amount}&description={description}&transaction_type={transaction_type}'
             messages.success(request, 'Category added successfully!')
-            return redirect(referer_url)
+            return redirect(reverse('add_transaction') + params)
     else:
         form = CategoryForm(user=request.user)
     return render(request, 'finance_tracker_app/add_category.html', {
@@ -725,7 +739,15 @@ def add_method_view(request):
         form = MethodForm(request.POST, user=request.user)
         if form.is_valid():
             form.save()
-            return redirect('add_transaction')
+            # Preserve transaction form data if present
+            title = request.POST.get('title', '')
+            amount = request.POST.get('amount', '')
+            description = request.POST.get('description', '')
+            transaction_type = request.POST.get('transaction_type', '')
+            params = ''
+            if title or amount or description or transaction_type:
+                params = f'?title={title}&amount={amount}&description={description}&transaction_type={transaction_type}'
+            return redirect(reverse('add_transaction') + params)
     else:
         form = MethodForm(user=request.user)
     return render(request, 'finance_tracker_app/add_method.html', {'form': form})
