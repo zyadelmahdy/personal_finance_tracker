@@ -42,6 +42,16 @@
             {% render_field profile_form.email class="block w-full rounded-md border-gray-300" %}
           </div> -->
         </div>
+        
+        <!-- Remove Profile Picture Button -->
+        {% if user.profile.image %}
+        <div class="border-t pt-4">
+          <button type="submit" name="remove_profile_picture" class="w-full bg-red-600 text-white px-4 py-2 rounded-xl font-bold hover:bg-red-700 transition flex items-center justify-center gap-2 cursor-pointer">
+            <span class="material-icons text-white">delete</span> Remove Profile Picture
+          </button>
+        </div>
+        {% endif %}
+        
         <button type="submit" name="profile_submit" class="w-full mt-4 bg-green-600 text-white px-4 py-2 rounded-xl font-bold hover:bg-green-700 transition flex items-center justify-center gap-2 cursor-pointer">
           <span class="material-icons text-white">save</span> Save Profile
         </button>

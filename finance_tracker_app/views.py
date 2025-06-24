@@ -177,6 +177,17 @@ def settings_view(request):
             if profile_form.is_valid():
                 profile_form.save()
                 messages.success(request, "Profile updated successfully.")
+        elif 'remove_profile_picture' in request.POST:
+            # Remove the profile picture
+            if profile.image:
+                # Delete the file from storage
+                profile.image.delete(save=False)
+                # Clear the image field
+                profile.image = None
+                profile.save()
+                messages.success(request, "Profile picture removed successfully.")
+            else:
+                messages.info(request, "No profile picture to remove.")
         elif 'preferences_submit' in request.POST:
             preferences_form = PreferencesForm(request.POST, instance=profile, prefix='preferences')
             if preferences_form.is_valid():
