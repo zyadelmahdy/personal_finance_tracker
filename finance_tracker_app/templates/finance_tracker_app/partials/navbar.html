@@ -58,7 +58,7 @@
           class="ml-4 md:ml-4 {% if active_page == 'settings' %} !border-gray-500 {% endif %}"
         >
           <img
-            src="{% static 'finance_tracker_app/images/profile_pic.png' %}"
+            src="{% if user.profile.image|image_exists %}{{ user.profile.image.url }}?v={{ user.profile.image.url|default:''|cut:'/'|length }}{% else %}{% static 'finance_tracker_app/images/profile_pic.png' %}{% endif %}"
             alt="Profile"
             class="h-10 w-10 rounded-full object-cover border-2 border-gray-200 hover:border-gray-500 transition 
             {% if active_page == 'settings' %} !border-gray-500 {% endif %}"

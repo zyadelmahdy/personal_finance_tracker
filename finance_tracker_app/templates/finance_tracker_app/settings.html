@@ -84,8 +84,8 @@
           <div>
             <label class="block text-sm font-medium text-gray-700 mb-1">Current Password</label>
             <div class="relative">
-              {% render_field password_form.old_password class="block w-full px-3 py-2 border border-gray-300 bg-gray-50 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 pr-10" %}
-              <button type="button" onclick="togglePassword('id_password-old_password', this)" tabindex="-1" class="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-700 focus:outline-none">
+              {% render_field password_form.old_password id="security_old_password" class="block w-full px-3 py-2 border border-gray-300 bg-gray-50 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 pr-10" %}
+              <button type="button" onclick="togglePassword('security_old_password', this)" tabindex="-1" class="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-700 focus:outline-none">
                 <span class="material-icons">visibility</span>
               </button>
             </div>
@@ -93,8 +93,8 @@
           <div> 
             <label class="block text-sm font-medium text-gray-700 mb-1">New Password</label>
             <div class="relative">
-              {% render_field password_form.new_password1 class="block w-full px-3 py-2 border border-gray-300 bg-gray-50 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 pr-10" %}
-              <button type="button" onclick="togglePassword('id_password-new_password1', this)" tabindex="-1" class="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-700 focus:outline-none">
+              {% render_field password_form.new_password1 id="security_new_password1" class="block w-full px-3 py-2 border border-gray-300 bg-gray-50 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 pr-10" %}
+              <button type="button" onclick="togglePassword('security_new_password1', this)" tabindex="-1" class="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-700 focus:outline-none">
                 <span class="material-icons">visibility</span>
               </button>
             </div>
@@ -102,8 +102,8 @@
           <div>
             <label class="block text-sm font-medium text-gray-700 mb-1">Confirm New Password</label>
             <div class="relative">
-              {% render_field password_form.new_password2 class="block w-full px-3 py-2 border border-gray-300 bg-gray-50 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 pr-10" %}
-              <button type="button" onclick="togglePassword('id_password-new_password2', this)" tabindex="-1" class="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-700 focus:outline-none">
+              {% render_field password_form.new_password2 id="security_new_password2" class="block w-full px-3 py-2 border border-gray-300 bg-gray-50 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 pr-10" %}
+              <button type="button" onclick="togglePassword('security_new_password2', this)" tabindex="-1" class="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-700 focus:outline-none">
                 <span class="material-icons">visibility</span>
               </button>
             </div>
