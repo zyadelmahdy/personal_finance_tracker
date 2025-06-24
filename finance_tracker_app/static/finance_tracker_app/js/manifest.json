@@ -7,7 +7,7 @@
     "theme_color": "#3f7fbf",
     "icons": [
       {
-        "src": "/static//finance_tracker_app/images/logo.png",
+        "src": "/static/finance_tracker_app/images/logo.png",
         "sizes": "192x192",
         "type": "image/png"
       },
