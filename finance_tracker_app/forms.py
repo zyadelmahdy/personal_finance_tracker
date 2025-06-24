@@ -19,13 +19,11 @@ class TransactionForm(forms.ModelForm):
             self.fields['image'].initial = self.instance.image
 
     def save(self, commit=True):
-        profile = super().save(commit=False)
-        user = profile.user
-        user.username = self.cleaned_data['username']
+        instance = super().save(commit=False)
+        # Do not touch username or user here; user is set in the view
         if commit:
-            user.save()
-            profile.save()
-        return profile
+            instance.save()
+        return instance
 
 class CategoryForm(forms.ModelForm):
     class Meta:
