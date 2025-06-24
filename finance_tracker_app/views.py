@@ -269,12 +269,9 @@ def add_transaction_view(request):
     else:
         # Pre-populate form fields from GET params if present
         initial = {}
-        if 'title' in request.GET:
-            initial['title'] = request.GET.get('title', '')
-        if 'amount' in request.GET:
-            initial['amount'] = request.GET.get('amount', '')
-        if 'description' in request.GET:
-            initial['description'] = request.GET.get('description', '')
+        for field in ['title', 'amount', 'description', 'category', 'method']:
+            if field in request.GET:
+                initial[field] = request.GET.get(field, '')
         form = TransactionForm(user=request.user, initial=initial)
     return render(request, 'finance_tracker_app/add_transaction.html', {'form': form})
 
@@ -327,7 +324,12 @@ def add_budget_view(request):
             messages.success(request, "Budget added successfully.")
             return redirect('budgets')
     else:
-        form = BudgetForm(user=request.user)
+        # Pre-populate form fields from GET params if present
+        initial = {}
+        for field in ['name', 'amount', 'category']:
+            if field in request.GET:
+                initial[field] = request.GET.get(field, '')
+        form = BudgetForm(user=request.user, initial=initial)
     return render(request, 'finance_tracker_app/add_budget.html', {'form': form})
 
 @login_required
@@ -698,25 +700,32 @@ def categories_view(request):
 @login_required
 def add_category_view(request):
     next_url = request.GET.get('next') or request.POST.get('next') or reverse('transactions')
+    # Collect all possible form data from GET or POST
+    params = ''
     if request.method == 'POST':
         form = CategoryForm(request.POST, user=request.user)
         if form.is_valid():
             form.save()
-            # Preserve transaction form data if present
-            title = request.POST.get('title', '')
-            amount = request.POST.get('amount', '')
-            description = request.POST.get('description', '')
-            transaction_type = request.POST.get('transaction_type', '')
-            params = ''
-            if title or amount or description or transaction_type:
-                params = f'?title={title}&amount={amount}&description={description}&transaction_type={transaction_type}'
+            # Collect all possible form data from POST
+            data = request.POST.copy()
+            data.pop('csrfmiddlewaretoken', None)
+            data.pop('name', None)  # Remove category name itself
+            data.pop('next', None)
+            if data:
+                params = '?' + '&'.join([f'{k}={v}' for k, v in data.items() if v])
             messages.success(request, 'Category added successfully!')
             return redirect(next_url + params)
     else:
         form = CategoryForm(user=request.user)
+        # Also collect GET params for redirect if needed
+        data = request.GET.copy()
+        data.pop('next', None)
+        data.pop('name', None)
+        if data:
+            params = '?' + '&'.join([f'{k}={v}' for k, v in data.items() if v])
     return render(request, 'finance_tracker_app/add_category.html', {
         'form': form,
-        'referer_url': next_url
+        'referer_url': next_url + params
     })
 
 @login_required

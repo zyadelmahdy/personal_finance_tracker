@@ -7,6 +7,13 @@
 {% block content %}
 <div class="mx-auto max-w-2xl px-4 sm:px-6 lg:px-8 py-8">
   <div class="bg-white rounded-xl shadow p-8 flex flex-col gap-6">
+    {% if messages %}
+      <ul class="mb-4">
+        {% for message in messages %}
+          <li class="text-green-600 font-semibold">{{ message }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
     <h2 class="text-center text-2xl font-bold text-[#0f1416] font-['Public_Sans'] mb-2">Add Transaction</h2>
     <form method="post" class="flex flex-col gap-4">
       {% csrf_token %}
@@ -55,7 +62,7 @@
           {{ form.category|add_class:"w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" }}
           {{ form.category.errors }}
         </div>
-        <a href="{% url 'add_category' %}?next={% url 'transactions' %}&title={{ form.title.value|urlencode }}&amount={{ form.amount.value|urlencode }}&description={{ form.description.value|urlencode }}&transaction_type={% if form.is_income.value %}income{% elif form.is_expense.value %}expense{% endif %}" class="h-[42px] flex items-center bg-[#3f7fbf] text-white px-3 py-2 rounded-lg hover:bg-blue-700 transition text-sm whitespace-nowrap">
+        <a href="{% url 'add_category' %}?next={% url 'add_transaction' %}&title={{ form.title.value|urlencode }}&amount={{ form.amount.value|urlencode }}&description={{ form.description.value|urlencode }}&transaction_type={% if form.is_income.value %}income{% elif form.is_expense.value %}expense{% endif %}&category={{ form.category.value|urlencode }}&method={{ form.method.value|urlencode }}" class="h-[42px] flex items-center bg-[#3f7fbf] text-white px-3 py-2 rounded-lg hover:bg-blue-700 transition text-sm whitespace-nowrap">
           + New
         </a>
       </div>
