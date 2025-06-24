@@ -144,8 +144,11 @@
     }
   }
   function togglePassword(btn) {
-    // Find the first input[type=password] or input[type=text] in the same .relative div
-    const input = btn.parentElement.querySelector('input[type="password"], input[type="text"]');
+    // Use .closest('.relative') to robustly find the input
+    const container = btn.closest('.relative');
+    if (!container) return;
+    const input = container.querySelector('input[type="password"], input[type="text"]');
+    if (!input) return;
     if (input.type === 'password') {
       input.type = 'text';
       btn.querySelector('span').textContent = 'visibility_off';
