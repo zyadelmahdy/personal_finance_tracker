@@ -110,24 +110,24 @@
   {% if recent_transactions %}
   <div class="mb-8">
     <h3 class="text-xl font-bold mb-4">Recent Transactions</h3>
-    <div class="rounded-xl shadow w-full">
-      <table class="w-full table-auto bg-white rounded-xl text-sm">
+    <div class="rounded-xl shadow w-full overflow-x-auto">
+      <table class="min-w-full table-auto bg-white rounded-xl text-xs md:text-sm">
         <thead class="bg-gray-50">
           <tr>
-            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Title</th>
-            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Amount</th>
-            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Category</th>
-            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Type</th>
-            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
+            <th class="px-2 md:px-4 py-2 md:py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">Title</th>
+            <th class="px-2 md:px-4 py-2 md:py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">Amount</th>
+            <th class="px-2 md:px-4 py-2 md:py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">Category</th>
+            <th class="px-2 md:px-4 py-2 md:py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">Type</th>
+            <th class="px-2 md:px-4 py-2 md:py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">Date</th>
           </tr>
         </thead>
         <tbody>
           {% for transaction in recent_transactions %}
           <tr class="{% cycle 'bg-white' 'bg-gray-50' %} hover:bg-blue-50 transition">
-            <td class="px-4 py-3 whitespace-nowrap">{{ transaction.title }}</td>
-            <td class="px-4 py-3 whitespace-nowrap">${{ transaction.amount|floatformat:2 }}</td>
-            <td class="px-4 py-3 whitespace-nowrap">{{ transaction.category.name|default:"Uncategorized" }}</td>
-            <td class="px-4 py-3 whitespace-nowrap">
+            <td class="px-2 md:px-4 py-2 md:py-3 whitespace-nowrap">{{ transaction.title }}</td>
+            <td class="px-2 md:px-4 py-2 md:py-3 whitespace-nowrap">${{ transaction.amount|floatformat:2 }}</td>
+            <td class="px-2 md:px-4 py-2 md:py-3 whitespace-nowrap">{{ transaction.category.name|default:"Uncategorized" }}</td>
+            <td class="px-2 md:px-4 py-2 md:py-3 whitespace-nowrap">
               {% if transaction.is_income %}
                 <span class="font-bold text-green-600">Income</span>
               {% elif transaction.is_expense %}
@@ -136,7 +136,7 @@
                 -
               {% endif %}
             </td>
-            <td class="px-4 py-3 whitespace-nowrap">{{ transaction.date|date:"M d, Y" }}</td>
+            <td class="px-2 md:px-4 py-2 md:py-3 whitespace-nowrap">{{ transaction.date|date:"M d, Y" }}</td>
           </tr>
           {% endfor %}
         </tbody>

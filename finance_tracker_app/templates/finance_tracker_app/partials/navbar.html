@@ -24,21 +24,21 @@
       <div id="navbar-menu" class="hidden md:flex md:flex-row md:items-center md:space-x-8 md:static md:w-auto md:bg-transparent md:shadow-none md:p-0 flex-col space-y-4 absolute top-16 left-0 w-full bg-white z-50 shadow p-4">
         <a
           href="{% url 'transactions' %}"
-          class="block md:inline w-full md:w-auto text-sm font-medium text-[#0f1416] hover:text-gray-700 transition py-2 md:py-0 md:mx-0"
+          class="block md:inline-block text-sm font-medium text-[#0f1416] hover:text-gray-700 transition py-2 md:py-0"
           {% if active_page == 'transactions' %} !text-gray-700 {% endif %}
         >
           Transactions
         </a>
         <a
           href="{% url 'budgets' %}"
-          class="block md:inline w-full md:w-auto text-sm font-medium text-[#0f1416] hover:text-gray-700 transition py-2 md:py-0 md:mx-0"
+          class="block md:inline-block text-sm font-medium text-[#0f1416] hover:text-gray-700 transition py-2 md:py-0"
           {% if active_page == 'budgets' %} !text-gray-700 {% endif %}
         >
           Budgets
         </a>
         <a
           href="{% url 'reports' %}"
-          class="block md:inline w-full md:w-auto text-sm font-medium text-[#0f1416] hover:text-gray-700 transition py-2 md:py-0 md:mx-0"
+          class="block md:inline-block text-sm font-medium text-[#0f1416] hover:text-gray-700 transition py-2 md:py-0"
           {% if active_page == 'reports' %} !text-gray-700 {% endif %}
         >
           Reports
