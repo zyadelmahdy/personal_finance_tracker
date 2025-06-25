@@ -204,6 +204,7 @@ def settings_view(request):
         'profile_form': profile_form,
         'preferences_form': preferences_form,
         'password_form': password_form,
+        'active_page': 'settings',
     }
     return render(request, 'finance_tracker_app/settings.html', context)
 
@@ -246,7 +247,6 @@ def transactions_view(request):
     elif sort == 'method':
         ordering = 'method__name' if order == 'asc' else '-method__name'
     elif sort == 'type':
-        # Sort by is_income first, then is_expense (so incomes come before expenses in asc)
         ordering = 'is_income' if order == 'asc' else '-is_income'
     else:
         ordering = sort if order == 'asc' else f'-{sort}'
@@ -264,6 +264,7 @@ def transactions_view(request):
         'tab': tab,
         'sort': sort,
         'order': order,
+        'active_page': 'transactions',
     })
 
 
