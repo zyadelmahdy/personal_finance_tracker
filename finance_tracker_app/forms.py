@@ -31,6 +31,17 @@ class CategoryForm(forms.ModelForm):
         self.user = kwargs.pop('user', None)
         super().__init__(*args, **kwargs)
 
+    def clean(self):
+        cleaned_data = super().clean()
+        name = cleaned_data.get('name')
+        if name and self.user:
+            qs = Category.objects.filter(user=self.user, name=name)
+            if self.instance.pk:
+                qs = qs.exclude(pk=self.instance.pk)
+            if qs.exists():
+                self.add_error('name', 'You already have a category with this name.')
+        return cleaned_data
+
     def save(self, commit=True):
         instance = super().save(commit=False)
         if self.user:
@@ -47,6 +58,17 @@ class MethodForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         self.user = kwargs.pop('user', None)
         super().__init__(*args, **kwargs)
+
+    def clean(self):
+        cleaned_data = super().clean()
+        name = cleaned_data.get('name')
+        if name and self.user:
+            qs = Method.objects.filter(user=self.user, name=name)
+            if self.instance.pk:
+                qs = qs.exclude(pk=self.instance.pk)
+            if qs.exists():
+                self.add_error('name', 'You already have a method with this name.')
+        return cleaned_data
 
     def save(self, commit=True):
         instance = super().save(commit=False)
