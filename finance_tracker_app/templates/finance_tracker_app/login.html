@@ -8,7 +8,7 @@
 <div class="min-h-screen flex items-center justify-center bg-gray-50">
   <div class="w-full max-w-md bg-white rounded-xl shadow p-8 flex flex-col gap-6">
     <h2 class="text-center text-3xl font-bold text-[#0f1416] font-['Public_Sans']">Welcome back</h2>
-    <form method="post" class="flex flex-col gap-4">
+    <form method="post" class="flex flex-col gap-4 mb-24">
       {% csrf_token %}
       {{ form.non_field_errors }}
       <div>
