@@ -73,7 +73,8 @@
   <div class="mb-8">
     <h3 class="text-xl font-bold mb-4">Expense Breakdown</h3>
     <div class="bg-white rounded-xl shadow p-6">
-      <div class="flex flex-wrap gap-4 mb-6">
+      <canvas id="expensePieChart" width="400" height="400"></canvas>
+      <div class="flex flex-wrap gap-4 mt-6 justify-center">
         {% for category in top_expense_categories %}
         <div class="flex items-center gap-2">
           <div class="w-4 h-4 rounded-full" style="background-color: {% cycle '#3B82F6' '#EF4444' '#10B981' '#F59E0B' '#8B5CF6' '#EC4899' '#06B6D4' '#84CC16' %}"></div>
@@ -82,24 +83,49 @@
         </div>
         {% endfor %}
       </div>
-      <div class="space-y-3">
-        {% for category in top_expense_categories %}
-        <div class="flex items-center gap-3">
-          <div class="w-24 text-sm font-medium text-gray-700">{{ category.category__name|default:"Uncategorized" }}</div>
-          <div class="flex-1 bg-gray-200 rounded-full h-3">
-            <div class="h-3 rounded-full" 
-                 style="width: {{ category.percentage }}%; background-color: {% cycle '#3B82F6' '#EF4444' '#10B981' '#F59E0B' '#8B5CF6' '#EC4899' '#06B6D4' '#84CC16' %};">
-            </div>
-          </div>
-          <div class="w-20 text-sm text-gray-600 text-right">{{ currency }}{{ category.total|floatformat:0 }}</div>
-        </div>
-        {% endfor %}
-      </div>
-      <div class="mt-6 text-center text-lg font-semibold text-gray-700">
-        Total: {{ currency }}{{ total_expenses|floatformat:2 }}
-      </div>
     </div>
   </div>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const ctx = document.getElementById('expensePieChart').getContext('2d');
+      const data = {
+        labels: [
+          {% for category in top_expense_categories %}'{{ category.category__name|default:"Uncategorized" }}'{% if not forloop.last %}, {% endif %}{% endfor %}
+        ],
+        datasets: [{
+          data: [
+            {% for category in top_expense_categories %}{{ category.total|floatformat:2 }}{% if not forloop.last %}, {% endif %}{% endfor %}
+          ],
+          backgroundColor: [
+            '#3B82F6', '#EF4444', '#10B981', '#F59E0B', '#8B5CF6', '#EC4899', '#06B6D4', '#84CC16'
+          ],
+          borderWidth: 1
+        }]
+      };
+      new Chart(ctx, {
+        type: 'pie',
+        data: data,
+        options: {
+          responsive: true,
+          plugins: {
+            legend: {
+              position: 'bottom',
+            },
+            tooltip: {
+              callbacks: {
+                label: function(context) {
+                  let label = context.label || '';
+                  let value = context.parsed || 0;
+                  return `${label}: {{ currency }}${value.toLocaleString()}`;
+                }
+              }
+            }
+          }
+        }
+      });
+    });
+  </script>
   {% endif %}
 
   <!-- Quick Access: Categories & Payment Methods -->
