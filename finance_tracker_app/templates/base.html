@@ -33,6 +33,9 @@
     {% endif %}
 
     {% block content %}
+    <div class="{% if user.is_authenticated %}pb-20 md:pb-0{% endif %}">
+      {% block page_content %}{% endblock %}
+    </div>
     {% endblock %}
     
     <script>
