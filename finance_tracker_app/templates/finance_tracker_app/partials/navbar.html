@@ -1,7 +1,7 @@
 {% load static %}
 {% load profile_extras %}
 
-<nav class="bg-white shadow">
+<nav class="bg-white shadow hidden md:block">
   <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
     <div class="flex h-16 items-center justify-between">
       <!-- Logo -->
@@ -15,77 +15,48 @@
       </div>
       <!-- Nav Items and Profile Pic -->
       <div class="flex items-center">
-        <div id="navbar-menu" class="hidden md:flex md:flex-row md:items-center md:space-x-8 md:static md:w-auto md:bg-transparent md:shadow-none md:p-0 flex-col absolute top-16 left-0 w-full bg-white z-50 shadow p-4">
-          <a
-            href="{% url 'transactions' %}"
-            class="block md:inline-block text-sm font-medium text-[#0f1416] hover:text-gray-700 transition py-2 md:py-0"
-            {% if active_page == 'transactions' %} !text-gray-700 {% endif %}
-          >
-            Transactions
-          </a>
-          <a
-            href="{% url 'budgets' %}"
-            class="block md:inline-block text-sm font-medium text-[#0f1416] hover:text-gray-700 transition py-2 md:py-0"
-            {% if active_page == 'budgets' %} !text-gray-700 {% endif %}
-          >
-            Budgets
-          </a>
-          <a
-            href="{% url 'categories' %}"
-            class="block md:inline-block text-sm font-medium text-[#0f1416] hover:text-gray-700 transition py-2 md:py-0"
-            {% if active_page == 'categories' %} !text-gray-700 {% endif %}
-          >
-            Categories
-          </a>
-
-          <a
-            href="{% url 'methods' %}"
-            class="block md:inline-block text-sm font-medium text-[#0f1416] hover:text-gray-700 transition py-2 md:py-0"
-            {% if active_page == 'method' %} !text-gray-700 {% endif %}
-          >
-            Payment Methods
-          </a>
-          <a
-            href="{% url 'reports' %}"
-            class="block md:inline-block text-sm font-medium text-[#0f1416] hover:text-gray-700 transition py-2 md:py-0"
-            {% if active_page == 'reports' %} !text-gray-700 {% endif %}
-          >
-            Reports
-          </a>
+        <div class="flex flex-row items-center space-x-8">
+          <a href="{% url 'transactions' %}" class="text-sm font-medium text-[#0f1416] hover:text-gray-700 transition {% if active_page == 'transactions' %} !text-gray-700 {% endif %}">Transactions</a>
+          <a href="{% url 'budgets' %}" class="text-sm font-medium text-[#0f1416] hover:text-gray-700 transition {% if active_page == 'budgets' %} !text-gray-700 {% endif %}">Budgets</a>
+          <a href="{% url 'categories' %}" class="text-sm font-medium text-[#0f1416] hover:text-gray-700 transition {% if active_page == 'categories' %} !text-gray-700 {% endif %}">Categories</a>
+          <a href="{% url 'methods' %}" class="text-sm font-medium text-[#0f1416] hover:text-gray-700 transition {% if active_page == 'method' %} !text-gray-700 {% endif %}">Payment Methods</a>
+          <a href="{% url 'reports' %}" class="text-sm font-medium text-[#0f1416] hover:text-gray-700 transition {% if active_page == 'reports' %} !text-gray-700 {% endif %}">Reports</a>
         </div>
         <!-- Profile Pic -->
-        <a
-          href="{% url 'settings' %}"
-          class="ml-4 md:ml-4 {% if active_page == 'settings' %} !border-gray-500 {% endif %}"
-        >
+        <a href="{% url 'settings' %}" class="ml-4 {% if active_page == 'settings' %} !border-gray-500 {% endif %}">
           <img
             src="{% if user.profile.image|image_exists %}{{ user.profile.image.url }}?v={{ user.profile.image.url|default:''|cut:'/'|length }}{% else %}{% static 'finance_tracker_app/images/profile_pic.png' %}{% endif %}"
             alt="Profile"
-            class="h-10 w-10 rounded-full object-cover border-2 border-gray-200 hover:border-gray-500 transition 
-            {% if active_page == 'settings' %} !border-gray-500 {% endif %}"
+            class="h-10 w-10 rounded-full object-cover border-2 border-gray-200 hover:border-gray-500 transition {% if active_page == 'settings' %} !border-gray-500 {% endif %}"
           />
         </a>
-        <!-- Hamburger for mobile (move here) -->
-        <div class="flex md:hidden ml-2">
-          <button id="navbar-toggle" class="text-gray-700 focus:outline-none" aria-label="Toggle navigation">
-            <svg class="h-8 w-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-            </svg>
-          </button>
-        </div>
       </div>
     </div>
   </div>
 </nav>
-<script>
-  // Simple JS for toggling the mobile menu
-  document.addEventListener('DOMContentLoaded', function() {
-    const toggle = document.getElementById('navbar-toggle');
-    const menu = document.getElementById('navbar-menu');
-    if (toggle && menu) {
-      toggle.addEventListener('click', function() {
-        menu.classList.toggle('hidden');
-      });
-    }
-  });
-</script>
+
+<!-- Bottom Toolbar for Mobile -->
+<nav class="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 z-50">
+  <div class="flex justify-between items-center px-2 py-1">
+    <a href="{% url 'transactions' %}" class="flex flex-col items-center flex-1 py-2 {% if active_page == 'transactions' %}text-blue-600{% else %}text-gray-500{% endif %}">
+      <span class="material-icons">receipt_long</span>
+      <span class="text-xs">Transactions</span>
+    </a>
+    <a href="{% url 'budgets' %}" class="flex flex-col items-center flex-1 py-2 {% if active_page == 'budgets' %}text-blue-600{% else %}text-gray-500{% endif %}">
+      <span class="material-icons">account_balance_wallet</span>
+      <span class="text-xs">Budgets</span>
+    </a>
+    <a href="{% url 'index' %}" class="flex flex-col items-center flex-1 py-2 {% if active_page == 'index' %}text-blue-600{% else %}text-gray-500{% endif %}">
+      <span class="material-icons">home</span>
+      <span class="text-xs">Home</span>
+    </a>
+    <a href="{% url 'reports' %}" class="flex flex-col items-center flex-1 py-2 {% if active_page == 'reports' %}text-blue-600{% else %}text-gray-500{% endif %}">
+      <span class="material-icons">bar_chart</span>
+      <span class="text-xs">Reports</span>
+    </a>
+    <a href="{% url 'settings' %}" class="flex flex-col items-center flex-1 py-2 {% if active_page == 'settings' %}text-blue-600{% else %}text-gray-500{% endif %}">
+      <span class="material-icons">person</span>
+      <span class="text-xs">Profile</span>
+    </a>
+  </div>
+</nav>
