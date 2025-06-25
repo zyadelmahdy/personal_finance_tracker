@@ -43,7 +43,6 @@ urlpatterns = [
     path('methods/<int:method_id>/edit/', views.edit_method_view, name='edit_method'),
     path('methods/<int:method_id>/delete/', views.delete_method_view, name='delete_method'),
     path('entry/<int:method_id>/details/', views.method_details_view, name='method_details'),
-    path('methods/', views.method_view, name='method'),
     
     
     #transaction management
