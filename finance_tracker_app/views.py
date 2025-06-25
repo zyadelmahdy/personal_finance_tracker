@@ -103,6 +103,7 @@ def index_view(request):
         })
     
     context = {
+        'active_page': 'index',
         'total_income': total_income,
         'total_expenses': total_expenses,
         'net_savings': net_savings,
