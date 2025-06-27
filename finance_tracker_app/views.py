@@ -8,14 +8,14 @@ from .models import Transaction, Profile, Budget, Category, Method
 from django.urls import reverse
 from django.http import JsonResponse, HttpResponse
 from django.db.models import Sum, Count
-from datetime import datetime, timedelta
-from django.utils import timezone
+from datetime import datetime, timedelta, timezone
+from django.utils import timezone as django_timezone
 import csv
 
 @login_required
 def index_view(request):
     # Get date range (current month)
-    end_date = timezone.now()
+    end_date = django_timezone.now()
     start_date = end_date.replace(day=1)
     
     # Get user's transactions for current month
@@ -382,13 +382,13 @@ def budget_details_view(request, budget_id):
 @login_required
 def reports_view(request):
     # Get date range from request parameters
-    end_date = timezone.now()
+    end_date = django_timezone.now()
     start_date = end_date - timedelta(days=30)  # Default to last 30 days
     
     # Handle date filtering
     if request.GET.get('filter'):
         filter_type = request.GET.get('filter')
-        today = timezone.now().date()
+        today = django_timezone.now().date()
         
         if filter_type == '7days':
             start_date = end_date - timedelta(days=7)
@@ -409,15 +409,15 @@ def reports_view(request):
                 start_date_str = request.GET.get('start_date')
                 end_date_str = request.GET.get('end_date')
                 if start_date_str and end_date_str:
-                    start_date = timezone.datetime.strptime(start_date_str, '%Y-%m-%d').replace(tzinfo=timezone.utc)
-                    end_date = timezone.datetime.strptime(end_date_str, '%Y-%m-%d').replace(tzinfo=timezone.utc)
+                    start_date = django_timezone.datetime.strptime(start_date_str, '%Y-%m-%d').replace(tzinfo=django_timezone.utc)
+                    end_date = django_timezone.datetime.strptime(end_date_str, '%Y-%m-%d').replace(tzinfo=django_timezone.utc)
             except (ValueError, TypeError):
                 pass  # Use default dates if parsing fails
         elif filter_type == 'month':
             try:
                 month_str = request.GET.get('month')
                 if month_str:
-                    month_date = timezone.datetime.strptime(month_str, '%Y-%m').replace(tzinfo=timezone.utc)
+                    month_date = django_timezone.datetime.strptime(month_str, '%Y-%m').replace(tzinfo=django_timezone.utc)
                     start_date = month_date.replace(day=1)
                     # Calculate end of month
                     if month_date.month == 12:
@@ -448,7 +448,7 @@ def reports_view(request):
     ).order_by('-total')
     
     # Monthly trend (last 6 months) - always show last 6 months regardless of filter
-    trend_end_date = timezone.now()
+    trend_end_date = django_timezone.now()
     monthly_data = []
     for i in range(6):
         month_start = trend_end_date.replace(day=1) - timedelta(days=30*i)
@@ -524,13 +524,13 @@ def reports_view(request):
 @login_required
 def export_report_view(request):
     # Get date range from request parameters (same logic as reports_view)
-    end_date = timezone.now()
+    end_date = django_timezone.now()
     start_date = end_date - timedelta(days=30)  # Default to last 30 days
     
     # Handle date filtering
     if request.GET.get('filter'):
         filter_type = request.GET.get('filter')
-        today = timezone.now().date()
+        today = django_timezone.now().date()
         
         if filter_type == '7days':
             start_date = end_date - timedelta(days=7)
@@ -551,15 +551,15 @@ def export_report_view(request):
                 start_date_str = request.GET.get('start_date')
                 end_date_str = request.GET.get('end_date')
                 if start_date_str and end_date_str:
-                    start_date = timezone.datetime.strptime(start_date_str, '%Y-%m-%d').replace(tzinfo=timezone.utc)
-                    end_date = timezone.datetime.strptime(end_date_str, '%Y-%m-%d').replace(tzinfo=timezone.utc)
+                    start_date = django_timezone.datetime.strptime(start_date_str, '%Y-%m-%d').replace(tzinfo=django_timezone.utc)
+                    end_date = django_timezone.datetime.strptime(end_date_str, '%Y-%m-%d').replace(tzinfo=django_timezone.utc)
             except (ValueError, TypeError):
                 pass  # Use default dates if parsing fails
         elif filter_type == 'month':
             try:
                 month_str = request.GET.get('month')
                 if month_str:
-                    month_date = timezone.datetime.strptime(month_str, '%Y-%m').replace(tzinfo=timezone.utc)
+                    month_date = django_timezone.datetime.strptime(month_str, '%Y-%m').replace(tzinfo=django_timezone.utc)
                     start_date = month_date.replace(day=1)
                     # Calculate end of month
                     if month_date.month == 12:
@@ -613,7 +613,7 @@ def export_report_view(request):
     ).order_by('-total')
     
     # Get monthly trend data (last 6 months regardless of filter)
-    trend_end_date = timezone.now()
+    trend_end_date = django_timezone.now()
     monthly_data = []
     for i in range(6):
         month_start = trend_end_date.replace(day=1) - timedelta(days=30*i)
