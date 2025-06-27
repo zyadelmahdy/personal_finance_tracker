@@ -34,8 +34,8 @@
             required
             id="id_password1"
           >
-          <button type="button" onclick="togglePassword('id_password1', this)" tabindex="-1" class="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-700 focus:outline-none">
-            <span class="material-icons">visibility</span>
+          <button type="button" onclick="togglePassword(this)" tabindex="-1" class="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-700 focus:outline-none">
+            <span class="material-icons text-lg">visibility</span>
           </button>
         </div>
         {{ form.password1.errors }}
@@ -51,8 +51,8 @@
             required
             id="id_password2"
           >
-          <button type="button" onclick="togglePassword('id_password2', this)" tabindex="-1" class="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-700 focus:outline-none">
-            <span class="material-icons">visibility</span>
+          <button type="button" onclick="togglePassword(this)" tabindex="-1" class="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-700 focus:outline-none">
+            <span class="material-icons text-lg">visibility</span>
           </button>
         </div>
         {{ form.password2.errors }}
@@ -65,11 +65,16 @@
     </div>
   </div>
 </div>
-{% endblock %}
 
 <script>
-function togglePassword(fieldId, btn) {
-  const input = document.getElementById(fieldId);
+function togglePassword(btn) {
+  console.log('togglePassword called', btn);
+  const container = btn.closest('.relative');
+  console.log('container:', container);
+  if (!container) return;
+  const input = container.querySelector('input[type="password"], input[type="text"]');
+  console.log('input found:', input);
+  if (!input) return;
   if (input.type === 'password') {
     input.type = 'text';
     btn.querySelector('span').textContent = 'visibility_off';
@@ -78,4 +83,16 @@ function togglePassword(fieldId, btn) {
     btn.querySelector('span').textContent = 'visibility';
   }
 }
+
+// Ensure Material Icons are loaded
+document.addEventListener('DOMContentLoaded', function() {
+  // Check if Material Icons are loaded, if not, load them
+  if (!document.querySelector('link[href*="material-icons"]')) {
+    const link = document.createElement('link');
+    link.href = 'https://fonts.googleapis.com/icon?family=Material+Icons';
+    link.rel = 'stylesheet';
+    document.head.appendChild(link);
+  }
+});
 </script>
+{% endblock %}
