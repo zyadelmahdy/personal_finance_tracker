@@ -3,6 +3,7 @@ from django.contrib.auth import login, authenticate, logout
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.csrf import csrf_exempt  # For temporary testing only
 from .forms import TransactionForm, CategoryForm, MethodForm, ProfileForm, PreferencesForm, BudgetForm
 from .models import Transaction, Profile, Budget, Category, Method
 from django.urls import reverse

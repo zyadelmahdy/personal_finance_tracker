@@ -90,6 +90,29 @@ TEMPLATES = [
 # CSRF_TRUSTED_ORIGINS = [
 #     '',
 # ]
+
+# CSRF settings for production deployment
+CSRF_TRUSTED_ORIGINS = [
+    'https://personal-finance-tracker-qaof.onrender.com',
+    'https://*.onrender.com',
+    'http://localhost:8000',
+    'http://127.0.0.1:8000',
+]
+
+# Additional security settings for production
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
+SECURE_SSL_REDIRECT = False  # Set to True if you want to force HTTPS redirects
+
+# Additional CSRF settings for better compatibility
+CSRF_COOKIE_HTTPONLY = False
+CSRF_COOKIE_SAMESITE = 'Lax'
+CSRF_USE_SESSIONS = False
+
+# For development, you might want to disable CSRF temporarily for testing
+# CSRF_COOKIE_SECURE = False
+# SESSION_COOKIE_SECURE = False
+
 WSGI_APPLICATION = 'finance_tracker_project.wsgi.application'
 
 
