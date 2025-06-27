@@ -409,15 +409,15 @@ def reports_view(request):
                 start_date_str = request.GET.get('start_date')
                 end_date_str = request.GET.get('end_date')
                 if start_date_str and end_date_str:
-                    start_date = django_timezone.datetime.strptime(start_date_str, '%Y-%m-%d').replace(tzinfo=django_timezone.utc)
-                    end_date = django_timezone.datetime.strptime(end_date_str, '%Y-%m-%d').replace(tzinfo=django_timezone.utc)
+                    start_date = django_timezone.datetime.strptime(start_date_str, '%Y-%m-%d').replace(tzinfo=timezone.utc)
+                    end_date = django_timezone.datetime.strptime(end_date_str, '%Y-%m-%d').replace(tzinfo=timezone.utc)
             except (ValueError, TypeError):
                 pass  # Use default dates if parsing fails
         elif filter_type == 'month':
             try:
                 month_str = request.GET.get('month')
                 if month_str:
-                    month_date = django_timezone.datetime.strptime(month_str, '%Y-%m').replace(tzinfo=django_timezone.utc)
+                    month_date = django_timezone.datetime.strptime(month_str, '%Y-%m').replace(tzinfo=timezone.utc)
                     start_date = month_date.replace(day=1)
                     # Calculate end of month
                     if month_date.month == 12:
@@ -551,15 +551,15 @@ def export_report_view(request):
                 start_date_str = request.GET.get('start_date')
                 end_date_str = request.GET.get('end_date')
                 if start_date_str and end_date_str:
-                    start_date = django_timezone.datetime.strptime(start_date_str, '%Y-%m-%d').replace(tzinfo=django_timezone.utc)
-                    end_date = django_timezone.datetime.strptime(end_date_str, '%Y-%m-%d').replace(tzinfo=django_timezone.utc)
+                    start_date = django_timezone.datetime.strptime(start_date_str, '%Y-%m-%d').replace(tzinfo=timezone.utc)
+                    end_date = django_timezone.datetime.strptime(end_date_str, '%Y-%m-%d').replace(tzinfo=timezone.utc)
             except (ValueError, TypeError):
                 pass  # Use default dates if parsing fails
         elif filter_type == 'month':
             try:
                 month_str = request.GET.get('month')
                 if month_str:
-                    month_date = django_timezone.datetime.strptime(month_str, '%Y-%m').replace(tzinfo=django_timezone.utc)
+                    month_date = django_timezone.datetime.strptime(month_str, '%Y-%m').replace(tzinfo=timezone.utc)
                     start_date = month_date.replace(day=1)
                     # Calculate end of month
                     if month_date.month == 12:
