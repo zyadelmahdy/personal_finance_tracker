@@ -381,11 +381,53 @@ def budget_details_view(request, budget_id):
 
 @login_required
 def reports_view(request):
-    # Get date range (last 30 days by default)
+    # Get date range from request parameters
     end_date = timezone.now()
-    start_date = end_date - timedelta(days=30)
+    start_date = end_date - timedelta(days=30)  # Default to last 30 days
     
-    # Get user's transactions
+    # Handle date filtering
+    if request.GET.get('filter'):
+        filter_type = request.GET.get('filter')
+        today = timezone.now().date()
+        
+        if filter_type == '7days':
+            start_date = end_date - timedelta(days=7)
+        elif filter_type == '30days':
+            start_date = end_date - timedelta(days=30)
+        elif filter_type == 'this_month':
+            start_date = end_date.replace(day=1)
+        elif filter_type == 'last_month':
+            last_month = end_date.replace(day=1) - timedelta(days=1)
+            start_date = last_month.replace(day=1)
+            end_date = end_date.replace(day=1) - timedelta(days=1)
+        elif filter_type == '3months':
+            start_date = end_date - timedelta(days=90)
+        elif filter_type == 'this_year':
+            start_date = end_date.replace(month=1, day=1)
+        elif filter_type == 'custom':
+            try:
+                start_date_str = request.GET.get('start_date')
+                end_date_str = request.GET.get('end_date')
+                if start_date_str and end_date_str:
+                    start_date = timezone.datetime.strptime(start_date_str, '%Y-%m-%d').replace(tzinfo=timezone.utc)
+                    end_date = timezone.datetime.strptime(end_date_str, '%Y-%m-%d').replace(tzinfo=timezone.utc)
+            except (ValueError, TypeError):
+                pass  # Use default dates if parsing fails
+        elif filter_type == 'month':
+            try:
+                month_str = request.GET.get('month')
+                if month_str:
+                    month_date = timezone.datetime.strptime(month_str, '%Y-%m').replace(tzinfo=timezone.utc)
+                    start_date = month_date.replace(day=1)
+                    # Calculate end of month
+                    if month_date.month == 12:
+                        end_date = month_date.replace(year=month_date.year + 1, month=1, day=1) - timedelta(days=1)
+                    else:
+                        end_date = month_date.replace(month=month_date.month + 1, day=1) - timedelta(days=1)
+            except (ValueError, TypeError):
+                pass  # Use default dates if parsing fails
+    
+    # Get user's transactions for the selected date range
     user_transactions = Transaction.objects.filter(user=request.user, date__range=[start_date, end_date])
     
     # Income vs Expenses
@@ -405,27 +447,27 @@ def reports_view(request):
         count=Count('id')
     ).order_by('-total')
     
-    # Monthly trend (last 6 months)
+    # Monthly trend (last 6 months) - always show last 6 months regardless of filter
+    trend_end_date = timezone.now()
     monthly_data = []
     for i in range(6):
-        month_start = end_date.replace(day=1) - timedelta(days=30*i)
+        month_start = trend_end_date.replace(day=1) - timedelta(days=30*i)
         month_end = month_start.replace(day=28) + timedelta(days=4)
         month_end = month_end.replace(day=1) - timedelta(days=1)
         
-        month_income = user_transactions.filter(
-            is_income=True, 
+        # Get all user transactions for this month (not filtered by current date range)
+        month_transactions = Transaction.objects.filter(
+            user=request.user,
             date__year=month_start.year, 
             date__month=month_start.month
-        ).aggregate(Sum('amount'))['amount__sum'] or 0
+        )
         
-        month_expenses = user_transactions.filter(
-            is_expense=True, 
-            date__year=month_start.year, 
-            date__month=month_start.month
-        ).aggregate(Sum('amount'))['amount__sum'] or 0
+        month_income = month_transactions.filter(is_income=True).aggregate(Sum('amount'))['amount__sum'] or 0
+        month_expenses = month_transactions.filter(is_expense=True).aggregate(Sum('amount'))['amount__sum'] or 0
         
         monthly_data.append({
             'month': month_start.strftime('%B %Y'),
+            'month_key': month_start.strftime('%Y-%m'),
             'income': month_income,
             'expenses': month_expenses,
             'net': month_income - month_expenses
@@ -473,16 +515,61 @@ def reports_view(request):
         'start_date': start_date,
         'end_date': end_date,
         'currency': request.user.profile.currency,
+        'current_filter': request.GET.get('filter', '30days'),
+        'custom_start_date': request.GET.get('start_date', ''),
+        'custom_end_date': request.GET.get('end_date', ''),
     }
     return render(request, 'finance_tracker_app/reports.html', context)
 
 @login_required
 def export_report_view(request):
-    # Get date range (last 30 days by default)
+    # Get date range from request parameters (same logic as reports_view)
     end_date = timezone.now()
-    start_date = end_date - timedelta(days=30)
+    start_date = end_date - timedelta(days=30)  # Default to last 30 days
     
-    # Get user's transactions
+    # Handle date filtering
+    if request.GET.get('filter'):
+        filter_type = request.GET.get('filter')
+        today = timezone.now().date()
+        
+        if filter_type == '7days':
+            start_date = end_date - timedelta(days=7)
+        elif filter_type == '30days':
+            start_date = end_date - timedelta(days=30)
+        elif filter_type == 'this_month':
+            start_date = end_date.replace(day=1)
+        elif filter_type == 'last_month':
+            last_month = end_date.replace(day=1) - timedelta(days=1)
+            start_date = last_month.replace(day=1)
+            end_date = end_date.replace(day=1) - timedelta(days=1)
+        elif filter_type == '3months':
+            start_date = end_date - timedelta(days=90)
+        elif filter_type == 'this_year':
+            start_date = end_date.replace(month=1, day=1)
+        elif filter_type == 'custom':
+            try:
+                start_date_str = request.GET.get('start_date')
+                end_date_str = request.GET.get('end_date')
+                if start_date_str and end_date_str:
+                    start_date = timezone.datetime.strptime(start_date_str, '%Y-%m-%d').replace(tzinfo=timezone.utc)
+                    end_date = timezone.datetime.strptime(end_date_str, '%Y-%m-%d').replace(tzinfo=timezone.utc)
+            except (ValueError, TypeError):
+                pass  # Use default dates if parsing fails
+        elif filter_type == 'month':
+            try:
+                month_str = request.GET.get('month')
+                if month_str:
+                    month_date = timezone.datetime.strptime(month_str, '%Y-%m').replace(tzinfo=timezone.utc)
+                    start_date = month_date.replace(day=1)
+                    # Calculate end of month
+                    if month_date.month == 12:
+                        end_date = month_date.replace(year=month_date.year + 1, month=1, day=1) - timedelta(days=1)
+                    else:
+                        end_date = month_date.replace(month=month_date.month + 1, day=1) - timedelta(days=1)
+            except (ValueError, TypeError):
+                pass  # Use default dates if parsing fails
+    
+    # Get user's transactions for the selected date range
     user_transactions = Transaction.objects.filter(user=request.user, date__range=[start_date, end_date])
     
     # Calculate summary data
@@ -525,22 +612,21 @@ def export_report_view(request):
         count=Count('id')
     ).order_by('-total')
     
-    # Get monthly trend data
+    # Get monthly trend data (last 6 months regardless of filter)
+    trend_end_date = timezone.now()
     monthly_data = []
     for i in range(6):
-        month_start = end_date.replace(day=1) - timedelta(days=30*i)
+        month_start = trend_end_date.replace(day=1) - timedelta(days=30*i)
         
-        month_income = user_transactions.filter(
-            is_income=True, 
+        # Get all user transactions for this month (not filtered by current date range)
+        month_transactions = Transaction.objects.filter(
+            user=request.user,
             date__year=month_start.year, 
             date__month=month_start.month
-        ).aggregate(Sum('amount'))['amount__sum'] or 0
+        )
         
-        month_expenses = user_transactions.filter(
-            is_expense=True, 
-            date__year=month_start.year, 
-            date__month=month_start.month
-        ).aggregate(Sum('amount'))['amount__sum'] or 0
+        month_income = month_transactions.filter(is_income=True).aggregate(Sum('amount'))['amount__sum'] or 0
+        month_expenses = month_transactions.filter(is_expense=True).aggregate(Sum('amount'))['amount__sum'] or 0
         
         monthly_data.append({
             'month': month_start.strftime('%B %Y'),
@@ -554,7 +640,7 @@ def export_report_view(request):
     
     # Create CSV response
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = f'attachment; filename="financial_report_{datetime.now().strftime("%Y%m%d_%H%M%S")}.csv"'
+    response['Content-Disposition'] = f'attachment; filename="financial_report_{start_date.strftime("%Y%m%d")}_to_{end_date.strftime("%Y%m%d")}_{datetime.now().strftime("%Y%m%d_%H%M%S")}.csv"'
     
     writer = csv.writer(response)
     
