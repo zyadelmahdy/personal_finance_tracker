@@ -8,7 +8,7 @@ class TransactionForm(forms.ModelForm):
         model = Transaction
         fields = ['title', 'amount', 'description', 'category', 'method']
         widgets = {
-            'description': forms.Textarea(),
+            'description': forms.Textarea(attrs={'required': False}),
         }
 
     def __init__(self, *args, **kwargs):
