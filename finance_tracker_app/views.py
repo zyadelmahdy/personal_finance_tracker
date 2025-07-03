@@ -15,12 +15,16 @@ import csv
 
 @login_required
 def index_view(request):
-    # Get date range (current month)
-    end_date = django_timezone.now()
-    start_date = end_date.replace(day=1)
-    
-    # Get user's transactions for current month
-    user_transactions = Transaction.objects.filter(user=request.user, date__range=[start_date, end_date])
+    # Get date range (current month, inclusive)
+    now = django_timezone.now()
+    start_date = now.replace(day=1, hour=0, minute=0, second=0, microsecond=0)
+    # Calculate the last day of the current month
+    if now.month == 12:
+        end_date = now.replace(year=now.year + 1, month=1, day=1, hour=0, minute=0, second=0, microsecond=0) - timedelta(microseconds=1)
+    else:
+        end_date = now.replace(month=now.month + 1, day=1, hour=0, minute=0, second=0, microsecond=0) - timedelta(microseconds=1)
+    # Get user's transactions for current month (inclusive)
+    user_transactions = Transaction.objects.filter(user=request.user, date__gte=start_date, date__lte=end_date)
     
     # Calculate summary data
     total_income = user_transactions.filter(is_income=True).aggregate(Sum('amount'))['amount__sum'] or 0
