@@ -110,7 +110,14 @@ A comprehensive Django web application for managing personal finances with advan
 
 ## 📊 Screenshots
 
-*[Add screenshots of key features here]*
+![FinTrack-03-07-2025_19_14](https://github.com/user-attachments/assets/c2740137-9742-48ae-ad29-75e18af9fc26)
+![FinTrack-03-07-2025_19_14 (3)](https://github.com/user-attachments/assets/cd478a07-1950-4c68-9712-640a70172de8)
+![FinTrack-03-07-2025_19_14 (2)](https://github.com/user-attachments/assets/9d1ed771-23aa-4a86-891c-4163ac3f74f6)
+![FinTrack-03-07-2025_19_14 (1)](https://github.com/user-attachments/assets/ba868739-f2e5-4f7a-887d-f61457c5fffe)
+![Screenshot_20250703-191327](https://github.com/user-attachments/assets/97a5d899-4475-4cc4-b6cf-46d97f304c2d)
+![Screenshot_20250703-191315](https://github.com/user-attachments/assets/8eade338-d1e4-40ce-bdbe-149952fe5401)
+![Screenshot_20250703-191303](https://github.com/user-attachments/assets/5acfa9e5-919c-4dbf-b04a-8d8708ab3d5c)
+
 
 ## 🤝 Contributing
 
