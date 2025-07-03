@@ -7,6 +7,9 @@ class TransactionForm(forms.ModelForm):
     class Meta:
         model = Transaction
         fields = ['title', 'amount', 'description', 'category', 'method']
+        widgets = {
+            'description': forms.Textarea(attrs={'required': False}),
+        }
 
     def __init__(self, *args, **kwargs):
         user = kwargs.pop('user', None)
@@ -14,6 +17,7 @@ class TransactionForm(forms.ModelForm):
         if user:
             self.fields['category'].queryset = Category.objects.filter(user=user)
             self.fields['method'].queryset = Method.objects.filter(user=user)
+        self.fields['description'].required = False
 
     def save(self, commit=True):
         instance = super().save(commit=False)

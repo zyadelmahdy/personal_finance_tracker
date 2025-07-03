@@ -50,9 +50,15 @@ class Profile(models.Model):
         return f"{self.user.username} Profile"
 
 @receiver(post_save, sender=User)
-def create_user_profile(sender, instance, created, **kwargs):
+def create_user_profile_and_defaults(sender, instance, created, **kwargs):
     if created:
         Profile.objects.create(user=instance)
+        # Create default payment methods
+        for method_name in ["Cash", "Card"]:
+            Method.objects.get_or_create(user=instance, name=method_name)
+        # Create default categories
+        for category_name in ["Market", "Leisure"]:
+            Category.objects.get_or_create(user=instance, name=category_name)
 
 class Budget(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
